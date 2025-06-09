@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة مهندس الإنتاج</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Minimalist & Modern Theme v3 (Enhanced) */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --background-main: #f8fafc;
+            --background-content: rgba(255, 255, 255, 0.9);
+            --sidebar-bg: rgba(255, 255, 255, 0.75);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --font-main: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--background-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .layout-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-left: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .sidebar-header p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-menu { list-style: none; flex-grow: 1; }
+        .nav-item { margin-bottom: 0.5rem; }
+        .nav-link {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0.75rem 1rem; border-radius: 6px;
+            font-weight: 600; color: var(--text-secondary);
+            text-decoration: none; transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-link i { width: 20px; transition: transform 0.2s ease; }
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(79, 70, 229, 0.05);
+        }
+        .nav-link.active {
+            color: white; background-color: var(--primary-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link.active:hover i { transform: scale(1.1); }
+        
+        /* Main Content */
+        .main-content { flex-grow: 1; padding: 2rem; overflow-y: auto; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .page-header { margin-bottom: 2rem; }
+        .page-header h2 { font-size: 2rem; font-weight: 700; }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); /* FIX: Reduced min-width */
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--background-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .card-header {
+            padding: 1rem 1.5rem; font-size: 1.1rem; font-weight: 600;
+            display: flex; align-items: center; gap: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .card-content { padding: 1.5rem; }
+        
+        .section-title {
+            font-size: 0.875rem; font-weight: 600; color: var(--text-secondary);
+            margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        
+        /* Checklist */
+        .checklist-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.75rem; border-radius: 8px; transition: background-color 0.2s;
+        }
+        .checklist-item:hover { background-color: #f8fafc; }
+        .checklist-checkbox {
+            width: 18px; height: 18px; accent-color: var(--primary-color);
+            flex-shrink: 0; cursor: pointer;
+        }
+        .checklist-label { font-weight: 500; color: var(--text-primary); cursor: pointer; flex-grow: 1; }
+        input:checked + .checklist-label { text-decoration: line-through; color: var(--text-secondary); }
+        .note-trigger {
+            color: var(--text-secondary); cursor: pointer; padding: 4px;
+            border-radius: 4px; transition: color 0.2s, background-color 0.2s;
+        }
+        .note-trigger:hover { color: var(--primary-color); background-color: #f1f5f9; }
+        .note-trigger.active { color: var(--warning-color); }
+
+        /* Buttons */
+        .btn {
+            padding: 0.7rem 1.4rem; border-radius: 8px; border: 1px solid transparent;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn i { transition: transform 0.2s ease; }
+        .btn:hover i { transform: translateY(-1px); }
+        .btn-primary {
+            background-color: var(--primary-color); color: white; border-color: var(--primary-color);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-secondary {
+            background-color: var(--background-content); color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover { border-color: var(--primary-color); background-color: #f1f5f9; }
+        .actions-bar {
+            display: flex; justify-content: center; gap: 1rem;
+            margin-top: 2rem; flex-wrap: wrap;
+        }
+        
+        /* Forms */
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .form-input, .form-textarea {
+            width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--border-color);
+            border-radius: 6px; font-family: var(--font-main); font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus, .form-textarea:focus {
+            outline: none; border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        .form-textarea { min-height: 100px; resize: vertical; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background-color: rgba(100, 116, 139, 0.6);
+            z-index: 1000; justify-content: center; align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: white; padding: 1.5rem; border-radius: 8px;
+            width: 90%; max-width: 500px;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .modal-title { font-size: 1.25rem; font-weight: 600; }
+        .modal-body { margin-bottom: 1.5rem; color: var(--text-secondary); }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                position: fixed; top: 0; right: 0; bottom: 0;
+                transform: translateX(100%); z-index: 2000;
+                border-left: none; box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+            }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { padding: 1.5rem; padding-top: 6rem; }
+            .mobile-top-bar {
+                display: flex; justify-content: space-between; align-items: center;
+                position: fixed; top: 0; right: 0; left: 0;
+                padding: 1rem 1.5rem; background-color: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color);
+                z-index: 1000;
+            }
+            .mobile-top-bar .logo { font-size: 1.25rem; font-weight: 700; color: var(--primary-color); }
+            #menu-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+            .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
+            .overlay.open { display: block; }
+        }
+        @media (min-width: 993px) {
+            .mobile-top-bar { display: none; }
+            .overlay { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="mobile-top-bar">
+        <div class="logo">إنتاج</div>
+        <button id="menu-toggle"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <div class="layout-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>لوحة الإنتاج</h1>
+                <p>إدارة الوردية اليومية</p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#" class="nav-link active" data-tab="briefing"><i class="fas fa-sun"></i> اجتماع الوردية</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="tasks"><i class="fas fa-tasks"></i> المهام والتقرير</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="history"><i class="fas fa-history"></i> سجل التقارير</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Briefing Tab -->
+            <section class="tab-content active" id="briefing-tab">
+                <div class="page-header"><h2>📋 اجتماع بداية الوردية</h2></div>
+                <div class="grid-container">
+                    <div class="card">
+                        <div class="card-header"><i class="fas fa-bullhorn"></i> نقاط الاجتماع</div>
+                        <div class="card-content">
+                            <div class="checklist-item"><input type="checkbox" id="b-1" class="checklist-checkbox"><label for="b-1" class="checklist-label"><b>السلام والتحفيز</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-1"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="b-2" class="checklist-checkbox"><label for="b-2" class="checklist-label"><b>عرض نتائج اليوم السابق</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-2"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="b-3" class="checklist-checkbox"><label for="b-3" class="checklist-label"><b>مناقشة خطة اليوم</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-3"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="b-4" class="checklist-checkbox"><label for="b-4" class="checklist-label"><b>تأكيد تعليمات السلامة والجودة</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-4"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="b-5" class="checklist-checkbox"><label for="b-5" class="checklist-label"><b>فتح باب النقاش</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="card" id="last-day-card" style="display: none;">
+                        <div class="card-header" style="color: var(--warning-color);"><i class="fas fa-chart-line"></i> أداء اليوم السابق</div>
+                        <div class="card-content">
+                            <p><strong>الكمية المنتجة:</strong> <span id="last-day-prod">0</span></p>
+                            <p><strong>الوحدات المعيبة:</strong> <span id="last-day-def">0</span></p>
+                            <p><strong>نسبة الرفض:</strong> <span id="last-day-rate">0.00%</span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tasks & Report Tab -->
+            <section class="tab-content" id="tasks-tab">
+                <div class="page-header"><h2>📌 قائمة المهام والتقرير اليومي</h2></div>
+                <div class="grid-container">
+                    <div class="card">
+                        <div class="card-header"><i class="fas fa-tasks"></i> قائمة المهام</div>
+                        <div class="card-content">
+                            <h3 class="section-title">قبل بداية الوردية</h3>
+                            <div class="checklist-item"><input type="checkbox" id="t-b-1" class="checklist-checkbox"><label for="t-b-1" class="checklist-label">مراجعة خطة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-1"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="t-b-2" class="checklist-checkbox"><label for="t-b-2" class="checklist-label">مراجعة حالة المعدات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-2"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="t-b-3" class="checklist-checkbox"><label for="t-b-3" class="checklist-label">عمل اجتماع سريع</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-3"></i></div>
+                            <h3 class="section-title" style="margin-top: 1.5rem;">أثناء الوردية</h3>
+                            <div class="checklist-item"><input type="checkbox" id="t-d-1" class="checklist-checkbox"><label for="t-d-1" class="checklist-label">متابعة تشغيل الماكينات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-1"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="t-d-2" class="checklist-checkbox"><label for="t-d-2" class="checklist-label">مراجعة جودة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-2"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="t-d-3" class="checklist-checkbox"><label for="t-d-3" class="checklist-label">متابعة مؤشرات الأداء</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-3"></i></div>
+                            <h3 class="section-title" style="margin-top: 1.5rem;">نهاية الوردية</h3>
+                            <div class="checklist-item"><input type="checkbox" id="t-a-1" class="checklist-checkbox"><label for="t-a-1" class="checklist-label">مراجعة الكميات المنتجة</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-1"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="t-a-2" class="checklist-checkbox"><label for="t-a-2" class="checklist-label">تسجيل الملاحظات والأعطال</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-2"></i></div>
+                            <div class="checklist-item"><input type="checkbox" id="t-a-3" class="checklist-checkbox"><label for="t-a-3" class="checklist-label">تجهيز تقرير التسليم</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-3"></i></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><i class="fas fa-file-alt"></i> التقرير اليومي</div>
+                        <div class="card-content">
+                            <div class="input-group"><label for="production-qty">الكمية المنتجة</label><input type="number" id="production-qty" class="form-input"></div>
+                            <div class="input-group"><label for="defective-qty">الوحدات المعيبة</label><input type="number" id="defective-qty" class="form-input"></div>
+                            <div class="input-group"><label>نسبة الرفض</label><strong id="rejection-rate" style="font-size: 1.2rem;">0.00%</strong></div>
+                            <div class="input-group"><label for="issues-report">المشاكل والعقبات</label><textarea id="issues-report" class="form-textarea" placeholder="سجل المشاكل..."></textarea></div>
+                            <div class="input-group"><label for="improvements-report">ملاحظات واقتراحات</label><textarea id="improvements-report" class="form-textarea" placeholder="سجل الاقتراحات..."></textarea></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Tab -->
+            <section class="tab-content" id="history-tab">
+                <div class="page-header"><h2>📂 سجل التقارير المحفوظة</h2></div>
+                <div id="history-content-area" class="grid-container"></div>
+            </section>
+            
+            <div class="actions-bar">
+                <button class="btn btn-primary" id="save-btn"><i class="fas fa-save"></i> حفظ بيانات اليوم</button>
+                <button class="btn btn-secondary" id="load-btn"><i class="fas fa-download"></i> تحميل آخر بيانات</button>
+                <button class="btn btn-secondary" id="reset-btn" style="color: var(--danger-color);"><i class="fas fa-redo"></i> بدء يوم جديد</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="alert-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="alert-modal-title" class="modal-title"></h3></div>
+            <div id="alert-modal-body" class="modal-body"></div>
+            <div class="modal-footer">
+                <button id="alert-modal-confirm" class="btn btn-primary">موافق</button>
+            </div>
+        </div>
+    </div>
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="confirm-modal-title" class="modal-title"></h3></div>
+            <div class="modal-body"><p id="confirm-modal-body"></p></div>
+            <div class="modal-footer">
+                <button id="confirm-modal-cancel" class="btn btn-secondary">إلغاء</button>
+                <button id="confirm-modal-confirm" class="btn btn-primary">تأكيد</button>
+            </div>
+        </div>
+    </div>
+    <div id="notes-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">ملاحظات المهمة</h3></div>
+            <div class="modal-body">
+                <div id="notes-list"></div>
+                <textarea id="note-input" class="form-textarea" placeholder="أضف ملاحظة جديدة..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button id="notes-modal-close" class="btn btn-secondary">إغلاق</button>
+                <button id="notes-modal-save" class="btn btn-primary">حفظ الملاحظة</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Elements ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contents = document.querySelectorAll('.tab-content');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            // --- Modal Logic ---
+            const alertModal = {
+                el: document.getElementById('alert-modal'),
+                title: document.getElementById('alert-modal-title'),
+                body: document.getElementById('alert-modal-body'),
+                confirmBtn: document.getElementById('alert-modal-confirm'),
+                show(title, body) {
+                    this.title.textContent = title;
+                    this.body.textContent = body;
+                    this.el.classList.add('active');
+                }
+            };
+            alertModal.confirmBtn.addEventListener('click', () => alertModal.el.classList.remove('active'));
+
+            const confirmModal = {
+                el: document.getElementById('confirm-modal'),
+                title: document.getElementById('confirm-modal-title'),
+                body: document.getElementById('confirm-modal-body'),
+                confirmBtn: document.getElementById('confirm-modal-confirm'),
+                cancelBtn: document.getElementById('confirm-modal-cancel'),
+                show(title, body) {
+                    this.title.textContent = title;
+                    this.body.textContent = body;
+                    this.el.classList.add('active');
+                    return new Promise(resolve => {
+                        this.confirmBtn.onclick = () => { this.el.classList.remove('active'); resolve(true); };
+                        this.cancelBtn.onclick = () => { this.el.classList.remove('active'); resolve(false); };
+                    });
+                }
+            };
+
+            const notesModal = {
+                el: document.getElementById('notes-modal'),
+                list: document.getElementById('notes-list'),
+                input: document.getElementById('note-input'),
+                saveBtn: document.getElementById('notes-modal-save'),
+                closeBtn: document.getElementById('notes-modal-close'),
+                currentTaskId: null,
+                show(taskId, notes) {
+                    this.currentTaskId = taskId;
+                    this.list.innerHTML = notes.map(note => `<div>- ${note}</div>`).join('') || '<p>لا توجد ملاحظات.</p>';
+                    this.input.value = '';
+                    this.el.classList.add('active');
+                }
+            };
+            notesModal.closeBtn.addEventListener('click', () => notesModal.el.classList.remove('active'));
+            notesModal.saveBtn.addEventListener('click', () => {
+                const newNote = notesModal.input.value.trim();
+                if (newNote && notesModal.currentTaskId) {
+                    const data = getStoredData();
+                    data.tasks[notesModal.currentTaskId].notes.push(newNote);
+                    saveData(data);
+                    notesModal.el.classList.remove('active');
+                    updateNoteIcons();
+                }
+            });
+
+            // --- Mobile Menu ---
+            const toggleMenu = () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            };
+            menuToggle.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+            
+            // --- Navigation ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    link.classList.add('active');
+                    document.getElementById(link.dataset.tab + '-tab').classList.add('active');
+                    if(sidebar.classList.contains('open')) toggleMenu();
+                    if(link.dataset.tab === 'history') loadHistory();
+                });
+            });
+
+            // --- Data Structure ---
+            const DATA_KEY = 'production_data_v4';
+            const LAST_DAY_KEY = 'last_day_summary_v4';
+            const HISTORY_KEY = 'production_history_v4';
+
+            const getStoredData = () => {
+                const emptyData = { tasks: {}, report: {}, date: null };
+                const stored = localStorage.getItem(DATA_KEY);
+                const data = stored ? JSON.parse(stored) : emptyData;
+                // Ensure all tasks have a notes array
+                document.querySelectorAll('.note-trigger').forEach(trigger => {
+                    const id = trigger.dataset.taskId;
+                    if (!data.tasks[id]) {
+                        data.tasks[id] = { checked: false, notes: [] };
+                    } else if (!data.tasks[id].notes) {
+                         data.tasks[id].notes = [];
+                    }
+                });
+                return data;
+            };
+
+            const saveData = (data) => {
+                localStorage.setItem(DATA_KEY, JSON.stringify(data || getAndFormatCurrentData()));
+            };
+
+            const getAndFormatCurrentData = () => {
+                const data = getStoredData(); // Start with existing data to preserve notes
+                 document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
+                    if(!data.tasks[checkbox.id]) data.tasks[checkbox.id] = { checked: false, notes: [] };
+                    data.tasks[checkbox.id].checked = checkbox.checked;
+                });
+                data.report = {
+                    productionQty: document.getElementById('production-qty').value,
+                    defectiveQty: document.getElementById('defective-qty').value,
+                    issues: document.getElementById('issues-report').value,
+                    improvements: document.getElementById('improvements-report').value,
+                };
+                data.date = new Date().toISOString();
+                return data;
+            };
+
+            // --- Core Functions ---
+            const calculateRejectionRate = (prod, def) => {
+                const production = parseFloat(prod) || 0;
+                const defective = parseFloat(def) || 0;
+                return (production > 0) ? ((defective / production) * 100).toFixed(2) + '%' : '0.00%';
+            };
+
+            const updateNoteIcons = () => {
+                const data = getStoredData();
+                document.querySelectorAll('.note-trigger').forEach(trigger => {
+                    const task = data.tasks[trigger.dataset.taskId];
+                    if (task && task.notes && task.notes.length > 0) {
+                        trigger.classList.add('active');
+                    } else {
+                        trigger.classList.remove('active');
+                    }
+                });
+            };
+
+            const loadData = () => {
+                const data = getStoredData();
+                if (!data.date) return false;
+                
+                Object.keys(data.tasks).forEach(taskId => {
+                    const checkbox = document.getElementById(taskId);
+                    if (checkbox) checkbox.checked = data.tasks[taskId].checked;
+                });
+                const report = data.report;
+                document.getElementById('production-qty').value = report.productionQty || '';
+                document.getElementById('defective-qty').value = report.defectiveQty || '';
+                document.getElementById('issues-report').value = report.issues || '';
+                document.getElementById('improvements-report').value = report.improvements || '';
+                document.getElementById('rejection-rate').textContent = calculateRejectionRate(report.productionQty, report.defectiveQty);
+                updateNoteIcons();
+                return true;
+            };
+
+            const resetData = () => {
+                const currentData = getAndFormatCurrentData();
+                if(currentData.report.productionQty) {
+                    const summary = {
+                        prod: currentData.report.productionQty,
+                        def: currentData.report.defectiveQty,
+                        rate: calculateRejectionRate(currentData.report.productionQty, currentData.report.defectiveQty)
+                    };
+                    localStorage.setItem(LAST_DAY_KEY, JSON.stringify(summary));
+                }
+                localStorage.removeItem(DATA_KEY);
+                // Clear UI
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.form-input, .form-textarea').forEach(input => input.value = '');
+                document.getElementById('rejection-rate').textContent = '0.00%';
+                updateNoteIcons();
+                loadLastDaySummary();
+            };
+            
+            const saveToHistory = () => {
+                const currentData = getAndFormatCurrentData();
+                if(!currentData.report.productionQty) {
+                    alertModal.show('خطأ', 'لا يمكن حفظ تقرير فارغ. الرجاء إدخال بيانات الإنتاج أولاً.');
+                    return false;
+                }
+                const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+                history.unshift(currentData);
+                if (history.length > 50) history.pop();
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+                return true;
+            };
+
+            const loadHistory = () => {
+                const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+                const container = document.getElementById('history-content-area');
+                container.innerHTML = '';
+                if(history.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">لا توجد تقارير محفوظة.</p>';
+                    return;
+                }
+                history.forEach(entry => {
+                    const date = new Date(entry.date);
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `<div class="card-header"><i class="fas fa-calendar-alt"></i> ${date.toLocaleDateString('ar-EG')}</div>
+                        <div class="card-content">
+                            <p><strong>الإنتاج:</strong> ${entry.report.productionQty || 'N/A'}</p>
+                            <p><strong>المعيب:</strong> ${entry.report.defectiveQty || 'N/A'}</p>
+                        </div>`;
+                    container.appendChild(card);
+                });
+            };
+
+            const loadLastDaySummary = () => {
+                const summary = JSON.parse(localStorage.getItem(LAST_DAY_KEY));
+                const card = document.getElementById('last-day-card');
+                if (summary) {
+                    document.getElementById('last-day-prod').textContent = summary.prod;
+                    document.getElementById('last-day-def').textContent = summary.def;
+                    document.getElementById('last-day-rate').textContent = summary.rate;
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            };
+            
+            // --- Event Listeners ---
+            document.getElementById('save-btn').addEventListener('click', () => {
+                if (saveToHistory()) {
+                   alertModal.show('نجاح', 'تم حفظ بيانات اليوم وإضافتها للسجل بنجاح.');
+                }
+            });
+            document.getElementById('load-btn').addEventListener('click', () => {
+                if (loadData()) {
+                    alertModal.show('نجاح', 'تم تحميل آخر بيانات محفوظة بنجاح.');
+                } else {
+                    alertModal.show('معلومات', 'لا توجد بيانات محفوظة مسبقًا.');
+                }
+            });
+            document.getElementById('reset-btn').addEventListener('click', async () => {
+                const confirmed = await confirmModal.show('تأكيد', 'هل أنت متأكد من بدء يوم جديد؟ سيتم حفظ ملخص اليوم الحالي ومسح باقي البيانات.');
+                if (confirmed) {
+                    resetData();
+                    alertModal.show('نجاح', 'تم إعداد النظام ليوم جديد.');
+                }
+            });
+
+            document.querySelectorAll('.note-trigger').forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const taskId = trigger.dataset.taskId;
+                    const data = getStoredData();
+                    notesModal.show(taskId, data.tasks[taskId].notes);
+                });
+            });
+
+            // *** NEW: LIVE REJECTION RATE UPDATE ***
+            const productionQtyInput = document.getElementById('production-qty');
+            const defectiveQtyInput = document.getElementById('defective-qty');
+            const rejectionRateEl = document.getElementById('rejection-rate');
+
+            const updateLiveRejectionRate = () => {
+                rejectionRateEl.textContent = calculateRejectionRate(productionQtyInput.value, defectiveQtyInput.value);
+            };
+
+            productionQtyInput.addEventListener('input', updateLiveRejectionRate);
+            defectiveQtyInput.addEventListener('input', updateLiveRejectionRate);
+            // *** END OF NEW CODE ***
+
+            // Auto-save on any change
+            document.body.addEventListener('input', () => saveData(getAndFormatCurrentData()));
+            
+            // --- Initial Load ---
+            loadData();
+            loadLastDaySummary();
+        });
+    </script>
+</body>
+</html>
