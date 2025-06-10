@@ -102,7 +102,7 @@
         
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); /* FIX: Reduced min-width */
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 1.5rem;
         }
 
@@ -111,13 +111,23 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
         }
         .card-header {
             padding: 1rem 1.5rem; font-size: 1.1rem; font-weight: 600;
             display: flex; align-items: center; gap: 0.75rem;
             border-bottom: 1px solid var(--border-color);
         }
-        .card-content { padding: 1.5rem; }
+        .card-content { padding: 1.5rem; flex-grow: 1;}
+        .card-footer {
+            padding: 0.75rem 1.5rem;
+            background-color: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
         
         .section-title {
             font-size: 0.875rem; font-weight: 600; color: var(--text-secondary);
@@ -147,7 +157,7 @@
         .btn {
             padding: 0.7rem 1.4rem; border-radius: 8px; border: 1px solid transparent;
             font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
-            display: inline-flex; align-items: center; gap: 0.5rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
         .btn i { transition: transform 0.2s ease; }
         .btn:hover i { transform: translateY(-1px); }
@@ -161,6 +171,8 @@
             border-color: var(--border-color);
         }
         .btn-secondary:hover { border-color: var(--primary-color); background-color: #f1f5f9; }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem;}
+
         .actions-bar {
             display: flex; justify-content: center; gap: 1rem;
             margin-top: 2rem; flex-wrap: wrap;
@@ -169,16 +181,51 @@
         /* Forms */
         .input-group { margin-bottom: 1rem; }
         .input-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; font-size: 0.9rem; }
-        .form-input, .form-textarea {
+        .form-input, .form-textarea, .form-select {
             width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--border-color);
             border-radius: 6px; font-family: var(--font-main); font-size: 1rem;
             transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #fff;
         }
-        .form-input:focus, .form-textarea:focus {
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
             outline: none; border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
         .form-textarea { min-height: 100px; resize: vertical; }
+
+        /* To-Do List Specific Styles */
+        .todo-list { list-style: none; padding: 0; }
+        .todo-item {
+            display: flex; 
+            align-items: flex-start; /* Align items to top for long text */
+            gap: 0.75rem;
+            padding: 0.85rem 0.75rem; 
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s, opacity 0.3s;
+            animation: fadeInItem 0.4s ease;
+        }
+        @keyframes fadeInItem { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        .todo-item:last-child { border-bottom: none; }
+        .todo-item .checklist-checkbox { margin-top: 4px; /* Align checkbox better with first line of text */ }
+        .todo-item label { 
+            flex-grow: 1; 
+            cursor: pointer; 
+            font-weight: 500;
+            word-break: break-word; /* Handle long labels */
+            overflow-wrap: break-word;
+        }
+        .todo-item.completed label { text-decoration: line-through; color: var(--text-secondary); font-weight: normal; }
+        .todo-delete-btn {
+            background: none; border: none; color: var(--text-secondary);
+            cursor: pointer; font-size: 1rem; transition: color 0.2s, transform 0.2s;
+            padding: 0.25rem;
+            margin-top: 2px;
+        }
+        .todo-delete-btn:hover { color: var(--danger-color); transform: scale(1.1); }
+        #todo-form {
+            display: flex; gap: 1rem; align-items: center;
+        }
+
 
         /* Modal */
         .modal-overlay {
@@ -195,6 +242,105 @@
         .modal-title { font-size: 1.25rem; font-weight: 600; }
         .modal-body { margin-bottom: 1.5rem; color: var(--text-secondary); }
         .modal-footer { display: flex; justify-content: flex-end; gap: 0.5rem; }
+
+        /* History Accordion Styles */
+        #history-tab .grid-container {
+            grid-template-columns: 1fr;
+        }
+        .history-day-group {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            background-color: var(--background-content);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .history-day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: rgba(0,0,0,0.02);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        .history-day-group.expanded .history-day-header {
+            border-bottom-color: var(--border-color);
+        }
+        .history-day-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        .history-day-header span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background-color: var(--border-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 99px;
+        }
+        .history-day-header .chevron {
+            transition: transform 0.3s ease;
+        }
+        .history-day-group.expanded .chevron {
+            transform: rotate(180deg);
+        }
+        .history-day-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease;
+        }
+        .history-day-group.expanded .history-day-content {
+            max-height: 2000px;
+            padding: 1.5rem;
+        }
+        .history-day-content .card {
+            margin-bottom: 1rem;
+            box-shadow: none;
+            border: 1px solid #e2e8f0;
+        }
+        .history-day-content .card:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Jelly Calculator Styles */
+        #jelly-results {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background-color: #fff;
+            display: none; /* Initially hidden */
+        }
+        #jelly-results h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.1rem;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-item span:first-child {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .result-item span:last-child {
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
 
         /* Responsive */
         @media (max-width: 992px) {
@@ -217,6 +363,20 @@
             .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
             .overlay.open { display: block; }
         }
+        
+        @media (max-width: 768px) {
+            #todo-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            #todo-input {
+                font-size: 1.1rem;
+            }
+            #todo-form button {
+                width: 100%;
+            }
+        }
+
         @media (min-width: 993px) {
             .mobile-top-bar { display: none; }
             .overlay { display: none; }
@@ -244,6 +404,9 @@
                     <li class="nav-item"><a href="#" class="nav-link active" data-tab="briefing"><i class="fas fa-sun"></i> اجتماع الوردية</a></li>
                     <li class="nav-item"><a href="#" class="nav-link" data-tab="tasks"><i class="fas fa-tasks"></i> المهام والتقرير</a></li>
                     <li class="nav-item"><a href="#" class="nav-link" data-tab="history"><i class="fas fa-history"></i> سجل التقارير</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="todo"><i class="fas fa-list-check"></i> قائمة المهام</a></li>
+                    <!-- NEW JELLY CALCULATOR TAB -->
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="jelly-calculator"><i class="fas fa-calculator"></i> حاسبة الجيلي</a></li>
                 </ul>
             </nav>
         </aside>
@@ -315,9 +478,81 @@
                 <div id="history-content-area" class="grid-container"></div>
             </section>
             
+            <!-- To-Do List Tab -->
+            <section class="tab-content" id="todo-tab">
+                <div class="page-header"><h2>📝 قائمة المهام الإضافية</h2></div>
+                <div class="grid-container">
+                    <div class="card" style="grid-column: 1 / -1;">
+                        <div class="card-header"><i class="fas fa-plus-circle"></i> إضافة مهمة جديدة</div>
+                        <div class="card-content">
+                            <form id="todo-form">
+                                <input type="text" id="todo-input" class="form-input" placeholder="اكتب مهمة جديدة..." required>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card" style="grid-column: 1 / -1;">
+                        <div class="card-header"><i class="fas fa-list-ul"></i> المهام الحالية</div>
+                        <div class="card-content" id="todo-list-container-parent">
+                             <ul id="todo-list-container" class="todo-list">
+                                <!-- To-do items will be injected here by JavaScript -->
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- NEW: Jelly Calculator Tab -->
+            <section class="tab-content" id="jelly-calculator-tab">
+                <div class="page-header"><h2>🧮 حاسبة تعبئة الجيلي</h2></div>
+                <div class="grid-container">
+                    <div class="card" style="grid-column: 1 / -1;">
+                        <div class="card-header"><i class="fas fa-cogs"></i> إدخال البيانات</div>
+                        <div class="card-content">
+                            <form id="jelly-form">
+                                <div class="input-group">
+                                    <label for="jelly-type">اختر نوع الجيلي</label>
+                                    <select id="jelly-type" class="form-select" required></select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="jelly-pelts">عدد البلتات</label>
+                                    <input type="number" id="jelly-pelts" class="form-input" placeholder="مثال: 10" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="jelly-bag-weight">وزن الكيس (بالجرام)</label>
+                                    <input type="number" id="jelly-bag-weight" class="form-input" placeholder="مثال: 250" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="jelly-bags-per-carton">عدد الأكياس في الكرتونة</label>
+                                    <input type="number" id="jelly-bags-per-carton" class="form-input" placeholder="مثال: 24" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> احسب الآن</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="jelly-results" class="card" style="grid-column: 1 / -1; margin-top: 1.5rem; display: none;">
+                    <div class="card-header"><i class="fas fa-poll"></i> النتائج</div>
+                    <div class="card-content">
+                         <div class="result-item">
+                            <span>إجمالي الوزن:</span>
+                            <span id="result-total-weight">0 كجم</span>
+                        </div>
+                        <div class="result-item">
+                            <span>عدد الأكياس المطلوب:</span>
+                            <span id="result-bags-needed">0</span>
+                        </div>
+                         <div class="result-item">
+                            <span>عدد الكراتين المطلوب:</span>
+                            <span id="result-cartons-needed">0</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <div class="actions-bar">
-                <button class="btn btn-primary" id="save-btn"><i class="fas fa-save"></i> حفظ بيانات اليوم</button>
-                <button class="btn btn-secondary" id="load-btn"><i class="fas fa-download"></i> تحميل آخر بيانات</button>
+                <button class="btn btn-primary" id="save-btn"><i class="fas fa-archive"></i> حفظ أو تحديث التقرير</button>
+                <button class="btn btn-secondary" id="load-btn"><i class="fas fa-download"></i> تحميل آخر تقرير</button>
                 <button class="btn btn-secondary" id="reset-btn" style="color: var(--danger-color);"><i class="fas fa-redo"></i> بدء يوم جديد</button>
             </div>
         </main>
@@ -359,12 +594,46 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Jelly Production Data ---
+            const jellyProductionData = [
+                { shape: "كوكا", peltWeightKg: 211.1 },
+                { shape: "دبدوب", peltWeightKg: 205.5 },
+                { shape: "أرقام", peltWeightKg: 195.0 },
+                { shape: "قلب", peltWeightKg: 195.0 },
+                { shape: "نجمة", peltWeightKg: 190.2 },
+                { shape: "حروف", peltWeightKg: 195.0 },
+                { shape: "دودة", peltWeightKg: 204.1 },
+                { shape: "ديناصور", peltWeightKg: 168.5 },
+                { shape: "بيج دودة", peltWeightKg: 209.3 },
+                { shape: "بيج كنتر", peltWeightKg: 196.3 },
+                { shape: "بينتر", peltWeightKg: 140.4 },
+                { shape: "كرزة", peltWeightKg: 154.7 },
+                { shape: "تمساح", peltWeightKg: 163.7 },
+                { shape: "جمل", peltWeightKg: 165.2 },
+                { shape: "بطيخ", peltWeightKg: 189.3 },
+                { shape: "عروسة", peltWeightKg: 175.0 },
+                { shape: "عظمة", peltWeightKg: 174.2 },
+                { shape: "فراشة", peltWeightKg: 171.1 },
+                { shape: "فراولة", peltWeightKg: 187.0 },
+                { shape: "أرنب", peltWeightKg: 128.3 },
+                { shape: "فص", peltWeightKg: 188.1 },
+                { shape: "قرش", peltWeightKg: 180.8 },
+                { shape: "جيزة", peltWeightKg: 217.0 },
+                { shape: "أسنان", peltWeightKg: 180.1 },
+                { shape: "لزقة", peltWeightKg: 194.4 },
+                { shape: "مركبات", peltWeightKg: 178.8 },
+                { shape: "سلحفاة", peltWeightKg: 194.4 },
+                { shape: "بيج لاصقة", peltWeightKg: 194.4 },
+                { shape: "بطيخة", peltWeightKg: 279.9 }
+            ];
+
             // --- Elements ---
             const navLinks = document.querySelectorAll('.nav-link');
             const contents = document.querySelectorAll('.tab-content');
             const menuToggle = document.getElementById('menu-toggle');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
+            const historyContainer = document.getElementById('history-content-area');
 
             // --- Modal Logic ---
             const alertModal = {
@@ -432,15 +701,23 @@
             overlay.addEventListener('click', toggleMenu);
             
             // --- Navigation ---
+            const switchTab = (tabId) => {
+                navLinks.forEach(l => {
+                    l.classList.toggle('active', l.dataset.tab === tabId);
+                });
+                contents.forEach(c => {
+                    c.classList.toggle('active', c.id === tabId + '-tab');
+                });
+                if(sidebar.classList.contains('open')) toggleMenu();
+
+                if(tabId === 'history') loadHistory();
+                if(tabId === 'todo') renderTodos();
+            };
+
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-                    link.classList.add('active');
-                    document.getElementById(link.dataset.tab + '-tab').classList.add('active');
-                    if(sidebar.classList.contains('open')) toggleMenu();
-                    if(link.dataset.tab === 'history') loadHistory();
+                    switchTab(link.dataset.tab);
                 });
             });
 
@@ -448,30 +725,39 @@
             const DATA_KEY = 'production_data_v4';
             const LAST_DAY_KEY = 'last_day_summary_v4';
             const HISTORY_KEY = 'production_history_v4';
+            const TODO_KEY = 'production_todo_list_v1';
 
             const getStoredData = () => {
                 const emptyData = { tasks: {}, report: {}, date: null };
-                const stored = localStorage.getItem(DATA_KEY);
-                const data = stored ? JSON.parse(stored) : emptyData;
-                // Ensure all tasks have a notes array
+                let data;
+                try {
+                    const stored = localStorage.getItem(DATA_KEY);
+                    data = stored ? JSON.parse(stored) : emptyData;
+                    if (typeof data !== 'object' || data === null) data = emptyData;
+                } catch (e) {
+                    console.error("Error parsing stored data:", e);
+                    data = emptyData;
+                }
+                if (!data.tasks) data.tasks = {};
+                if (!data.report) data.report = {};
                 document.querySelectorAll('.note-trigger').forEach(trigger => {
                     const id = trigger.dataset.taskId;
-                    if (!data.tasks[id]) {
-                        data.tasks[id] = { checked: false, notes: [] };
-                    } else if (!data.tasks[id].notes) {
-                         data.tasks[id].notes = [];
-                    }
+                    if (!data.tasks[id]) data.tasks[id] = { checked: false, notes: [] };
+                    else if (!data.tasks[id].notes) data.tasks[id].notes = [];
                 });
                 return data;
             };
 
             const saveData = (data) => {
-                localStorage.setItem(DATA_KEY, JSON.stringify(data || getAndFormatCurrentData()));
+                localStorage.setItem(DATA_KEY, JSON.stringify(data));
             };
+            
+            const getHistory = () => JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+            const saveHistory = (history) => localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
 
             const getAndFormatCurrentData = () => {
-                const data = getStoredData(); // Start with existing data to preserve notes
-                 document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
+                const data = getStoredData(); 
+                document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
                     if(!data.tasks[checkbox.id]) data.tasks[checkbox.id] = { checked: false, notes: [] };
                     data.tasks[checkbox.id].checked = checkbox.checked;
                 });
@@ -481,7 +767,9 @@
                     issues: document.getElementById('issues-report').value,
                     improvements: document.getElementById('improvements-report').value,
                 };
-                data.date = new Date().toISOString();
+                if(!data.date) {
+                    data.date = new Date().toISOString();
+                }
                 return data;
             };
 
@@ -496,30 +784,24 @@
                 const data = getStoredData();
                 document.querySelectorAll('.note-trigger').forEach(trigger => {
                     const task = data.tasks[trigger.dataset.taskId];
-                    if (task && task.notes && task.notes.length > 0) {
-                        trigger.classList.add('active');
-                    } else {
-                        trigger.classList.remove('active');
-                    }
+                    trigger.classList.toggle('active', task && task.notes && task.notes.length > 0);
                 });
             };
-
-            const loadData = () => {
-                const data = getStoredData();
-                if (!data.date) return false;
-                
-                Object.keys(data.tasks).forEach(taskId => {
+            
+            const populateUIWithData = (dataObject) => {
+                if(!dataObject) return;
+                saveData(dataObject);
+                Object.keys(dataObject.tasks || {}).forEach(taskId => {
                     const checkbox = document.getElementById(taskId);
-                    if (checkbox) checkbox.checked = data.tasks[taskId].checked;
+                    if (checkbox) checkbox.checked = dataObject.tasks[taskId].checked;
                 });
-                const report = data.report;
+                const report = dataObject.report || {};
                 document.getElementById('production-qty').value = report.productionQty || '';
                 document.getElementById('defective-qty').value = report.defectiveQty || '';
                 document.getElementById('issues-report').value = report.issues || '';
                 document.getElementById('improvements-report').value = report.improvements || '';
                 document.getElementById('rejection-rate').textContent = calculateRejectionRate(report.productionQty, report.defectiveQty);
                 updateNoteIcons();
-                return true;
             };
 
             const resetData = () => {
@@ -533,11 +815,7 @@
                     localStorage.setItem(LAST_DAY_KEY, JSON.stringify(summary));
                 }
                 localStorage.removeItem(DATA_KEY);
-                // Clear UI
-                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-                document.querySelectorAll('.form-input, .form-textarea').forEach(input => input.value = '');
-                document.getElementById('rejection-rate').textContent = '0.00%';
-                updateNoteIcons();
+                populateUIWithData(getStoredData());
                 loadLastDaySummary();
             };
             
@@ -547,36 +825,112 @@
                     alertModal.show('خطأ', 'لا يمكن حفظ تقرير فارغ. الرجاء إدخال بيانات الإنتاج أولاً.');
                     return false;
                 }
-                const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-                history.unshift(currentData);
+                let history = getHistory();
+                const existingReportIndex = history.findIndex(entry => entry.date === currentData.date);
+
+                if (existingReportIndex > -1) {
+                    history[existingReportIndex] = currentData;
+                } else {
+                    history.unshift(currentData);
+                }
+                
                 if (history.length > 50) history.pop();
-                localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+                saveHistory(history);
                 return true;
             };
 
             const loadHistory = () => {
-                const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-                const container = document.getElementById('history-content-area');
-                container.innerHTML = '';
-                if(history.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">لا توجد تقارير محفوظة.</p>';
+                const history = getHistory();
+                historyContainer.innerHTML = '';
+                if (history.length === 0) {
+                    historyContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">لا توجد تقارير محفوظة.</p>';
                     return;
                 }
-                history.forEach(entry => {
-                    const date = new Date(entry.date);
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.innerHTML = `<div class="card-header"><i class="fas fa-calendar-alt"></i> ${date.toLocaleDateString('ar-EG')}</div>
-                        <div class="card-content">
-                            <p><strong>الإنتاج:</strong> ${entry.report.productionQty || 'N/A'}</p>
-                            <p><strong>المعيب:</strong> ${entry.report.defectiveQty || 'N/A'}</p>
-                        </div>`;
-                    container.appendChild(card);
-                });
+
+                const groupedByDay = history.reduce((acc, report) => {
+                    const dateKey = new Date(report.date).toLocaleDateString('en-CA');
+                    if (!acc[dateKey]) {
+                        acc[dateKey] = [];
+                    }
+                    acc[dateKey].push(report);
+                    return acc;
+                }, {});
+
+                for (const dateKey in groupedByDay) {
+                    const reportsForDay = groupedByDay[dateKey];
+                    const firstReportDate = new Date(reportsForDay[0].date);
+
+                    const dayGroup = document.createElement('div');
+                    dayGroup.className = 'history-day-group';
+
+                    dayGroup.innerHTML = `
+                        <div class="history-day-header">
+                            <h3>${firstReportDate.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
+                            <span>${reportsForDay.length} تقارير</span>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="history-day-content"></div>
+                    `;
+
+                    const contentContainer = dayGroup.querySelector('.history-day-content');
+
+                    reportsForDay.forEach(entry => {
+                        const date = new Date(entry.date);
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        card.innerHTML = `
+                            <div class="card-header"><i class="fas fa-clock"></i> ${date.toLocaleTimeString('ar-EG')}</div>
+                            <div class="card-content">
+                                <p><strong>الإنتاج:</strong> ${entry.report.productionQty || 'N/A'}</p>
+                                <p><strong>المعيب:</strong> ${entry.report.defectiveQty || 'N/A'}</p>
+                                <p><strong>المشاكل:</strong> ${entry.report.issues || 'لا يوجد'}</p>
+                                <p><strong>الاقتراحات:</strong> ${entry.report.improvements || 'لا يوجد'}</p>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-secondary btn-sm history-load-btn" data-date="${entry.date}"><i class="fas fa-edit"></i> تحميل للتعديل</button>
+                                <button class="btn btn-secondary btn-sm history-delete-btn" data-date="${entry.date}" style="color: var(--danger-color)"><i class="fas fa-trash"></i> حذف</button>
+                            </div>`;
+                        contentContainer.appendChild(card);
+                    });
+
+                    historyContainer.appendChild(dayGroup);
+                }
             };
+            
+            historyContainer.addEventListener('click', async (e) => {
+                const header = e.target.closest('.history-day-header');
+                const loadBtn = e.target.closest('.history-load-btn');
+                const deleteBtn = e.target.closest('.history-delete-btn');
+
+                if (header) {
+                    header.parentElement.classList.toggle('expanded');
+                }
+
+                if (loadBtn) {
+                    const date = loadBtn.dataset.date;
+                    const history = getHistory();
+                    const reportData = history.find(entry => entry.date === date);
+                    if(reportData) {
+                        populateUIWithData(reportData);
+                        alertModal.show('تم التحميل', 'تم تحميل بيانات التقرير المحدد. يمكنك الآن تعديلها في تبويب "المهام والتقرير".');
+                        switchTab('tasks');
+                    }
+                }
+
+                if (deleteBtn) {
+                    const date = deleteBtn.dataset.date;
+                    const confirmed = await confirmModal.show('تأكيد الحذف', 'هل أنت متأكد من رغبتك في حذف هذا التقرير نهائياً؟');
+                    if(confirmed){
+                        let history = getHistory();
+                        history = history.filter(entry => entry.date !== date);
+                        saveHistory(history);
+                        loadHistory(); // Refresh the history view
+                    }
+                }
+            });
 
             const loadLastDaySummary = () => {
-                const summary = JSON.parse(localStorage.getItem(LAST_DAY_KEY));
+                const summary = JSON.parse(localStorage.getItem(LAST_DAY_KEY) || null);
                 const card = document.getElementById('last-day-card');
                 if (summary) {
                     document.getElementById('last-day-prod').textContent = summary.prod;
@@ -587,20 +941,130 @@
                     card.style.display = 'none';
                 }
             };
+
+            // --- To-Do List Functions ---
+            const todoForm = document.getElementById('todo-form');
+            const todoInput = document.getElementById('todo-input');
+            const todoListContainer = document.getElementById('todo-list-container');
+            const todoListContainerParent = document.getElementById('todo-list-container-parent');
+
+            const getTodos = () => JSON.parse(localStorage.getItem(TODO_KEY) || '[]');
+            const saveTodos = (todos) => localStorage.setItem(TODO_KEY, JSON.stringify(todos));
+
+            const renderTodos = () => {
+                const todos = getTodos();
+                todoListContainer.innerHTML = '';
+                if(todos.length === 0) {
+                    todoListContainerParent.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">لا توجد مهام حاليًا. أضف مهمة جديدة للبدء!</p>';
+                } else {
+                    if (todoListContainerParent.querySelector('p')) {
+                         todoListContainerParent.innerHTML = '';
+                         todoListContainerParent.appendChild(todoListContainer);
+                    }
+                    todos.forEach(todo => {
+                        const li = document.createElement('li');
+                        li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+                        li.dataset.id = todo.id;
+                        li.innerHTML = `
+                            <input type="checkbox" id="todo-${todo.id}" class="checklist-checkbox" ${todo.completed ? 'checked' : ''}>
+                            <label for="todo-${todo.id}">${todo.text}</label>
+                            <button class="todo-delete-btn"><i class="fas fa-trash-alt"></i></button>
+                        `;
+                        todoListContainer.appendChild(li);
+                    });
+                }
+            };
+            
+            todoForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const text = todoInput.value.trim();
+                if (text) {
+                    const todos = getTodos();
+                    const newTodo = { id: Date.now(), text, completed: false };
+                    todos.unshift(newTodo);
+                    saveTodos(todos);
+                    renderTodos();
+                    todoInput.value = '';
+                }
+            });
+
+            todoListContainer.addEventListener('click', e => {
+                const li = e.target.closest('.todo-item');
+                if (!li) return;
+                const todoId = Number(li.dataset.id);
+                if (e.target.type === 'checkbox') {
+                    const todos = getTodos();
+                    const todo = todos.find(t => t.id === todoId);
+                    if (todo) {
+                        todo.completed = !todo.completed;
+                        saveTodos(todos);
+                        renderTodos();
+                    }
+                }
+                if (e.target.closest('.todo-delete-btn')) {
+                    let todos = getTodos();
+                    todos = todos.filter(t => t.id !== todoId);
+                    saveTodos(todos);
+                    renderTodos();
+                }
+            });
+
+            // --- Jelly Calculator Functions ---
+            const jellyForm = document.getElementById('jelly-form');
+            const jellyTypeSelect = document.getElementById('jelly-type');
+            
+            const populateJellySelect = () => {
+                jellyProductionData.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.peltWeightKg;
+                    option.textContent = item.shape;
+                    jellyTypeSelect.appendChild(option);
+                });
+            };
+            
+            jellyForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const peltWeightKg = parseFloat(jellyTypeSelect.value);
+                const numPelts = parseFloat(document.getElementById('jelly-pelts').value);
+                const bagWeightG = parseFloat(document.getElementById('jelly-bag-weight').value);
+                const bagsPerCarton = parseFloat(document.getElementById('jelly-bags-per-carton').value);
+                
+                if (isNaN(peltWeightKg) || isNaN(numPelts) || isNaN(bagWeightG) || isNaN(bagsPerCarton)) {
+                    alertModal.show('خطأ', 'الرجاء التأكد من إدخال قيم رقمية صحيحة في جميع الحقول.');
+                    return;
+                }
+
+                const totalWeightKg = peltWeightKg * numPelts;
+                const totalWeightG = totalWeightKg * 1000;
+                
+                const bagsNeeded = Math.floor(totalWeightG / bagWeightG);
+                const cartonsNeeded = Math.floor(bagsNeeded / bagsPerCarton);
+                
+                document.getElementById('result-total-weight').textContent = `${totalWeightKg.toFixed(2)} كجم`;
+                document.getElementById('result-bags-needed').textContent = bagsNeeded.toLocaleString();
+                document.getElementById('result-cartons-needed').textContent = cartonsNeeded.toLocaleString();
+                
+                document.getElementById('jelly-results').style.display = 'block';
+            });
             
             // --- Event Listeners ---
             document.getElementById('save-btn').addEventListener('click', () => {
                 if (saveToHistory()) {
-                   alertModal.show('نجاح', 'تم حفظ بيانات اليوم وإضافتها للسجل بنجاح.');
+                   alertModal.show('نجاح', 'تم حفظ أو تحديث التقرير في السجل بنجاح.');
                 }
             });
+
             document.getElementById('load-btn').addEventListener('click', () => {
-                if (loadData()) {
-                    alertModal.show('نجاح', 'تم تحميل آخر بيانات محفوظة بنجاح.');
+                const history = getHistory();
+                if (history.length > 0) {
+                    populateUIWithData(history[0]);
+                    alertModal.show('نجاح', 'تم تحميل آخر تقرير محفوظ بنجاح.');
+                    switchTab('tasks');
                 } else {
-                    alertModal.show('معلومات', 'لا توجد بيانات محفوظة مسبقًا.');
+                    alertModal.show('معلومات', 'لا توجد تقارير محفوظة في السجل لتحميلها.');
                 }
             });
+
             document.getElementById('reset-btn').addEventListener('click', async () => {
                 const confirmed = await confirmModal.show('تأكيد', 'هل أنت متأكد من بدء يوم جديد؟ سيتم حفظ ملخص اليوم الحالي ومسح باقي البيانات.');
                 if (confirmed) {
@@ -617,7 +1081,6 @@
                 });
             });
 
-            // *** NEW: LIVE REJECTION RATE UPDATE ***
             const productionQtyInput = document.getElementById('production-qty');
             const defectiveQtyInput = document.getElementById('defective-qty');
             const rejectionRateEl = document.getElementById('rejection-rate');
@@ -628,14 +1091,17 @@
 
             productionQtyInput.addEventListener('input', updateLiveRejectionRate);
             defectiveQtyInput.addEventListener('input', updateLiveRejectionRate);
-            // *** END OF NEW CODE ***
 
-            // Auto-save on any change
-            document.body.addEventListener('input', () => saveData(getAndFormatCurrentData()));
+            document.body.addEventListener('input', (e) => {
+                if (e.target.closest('#tasks-tab') || e.target.closest('#briefing-tab')) {
+                    saveData(getAndFormatCurrentData());
+                }
+            });
             
             // --- Initial Load ---
-            loadData();
+            populateUIWithData(getStoredData()); // Load any work-in-progress on start
             loadLastDaySummary();
+            populateJellySelect(); // Populate the jelly types on load
         });
     </script>
 </body>
