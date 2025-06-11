@@ -134,7 +134,10 @@
             margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px;
         }
         
-        /* Checklist */
+        /* Checklist & Notes Display */
+        .task-wrapper {
+            padding: 0.25rem 0;
+        }
         .checklist-item {
             display: flex; align-items: center; gap: 0.75rem;
             padding: 0.75rem; border-radius: 8px; transition: background-color 0.2s;
@@ -152,6 +155,29 @@
         }
         .note-trigger:hover { color: var(--primary-color); background-color: #f1f5f9; }
         .note-trigger.active { color: var(--warning-color); }
+        .notes-display {
+            display: none;
+            margin: 0 0.75rem 0.5rem 3.2rem;
+            padding: 0.75rem;
+            background-color: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+        .notes-display ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .notes-display li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            padding: 0.25rem 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .notes-display li:last-child {
+            border-bottom: none;
+        }
+
 
         /* Buttons */
         .btn {
@@ -305,6 +331,11 @@
         .history-day-content .card:last-child {
             margin-bottom: 0;
         }
+        .history-notes-section {
+            padding-top: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
 
         /* Jelly Calculator Styles */
         #jelly-results {
@@ -405,7 +436,6 @@
                     <li class="nav-item"><a href="#" class="nav-link" data-tab="tasks"><i class="fas fa-tasks"></i> المهام والتقرير</a></li>
                     <li class="nav-item"><a href="#" class="nav-link" data-tab="history"><i class="fas fa-history"></i> سجل التقارير</a></li>
                     <li class="nav-item"><a href="#" class="nav-link" data-tab="todo"><i class="fas fa-list-check"></i> قائمة المهام</a></li>
-                    <!-- NEW JELLY CALCULATOR TAB -->
                     <li class="nav-item"><a href="#" class="nav-link" data-tab="jelly-calculator"><i class="fas fa-calculator"></i> حاسبة الجيلي</a></li>
                 </ul>
             </nav>
@@ -420,11 +450,26 @@
                     <div class="card">
                         <div class="card-header"><i class="fas fa-bullhorn"></i> نقاط الاجتماع</div>
                         <div class="card-content">
-                            <div class="checklist-item"><input type="checkbox" id="b-1" class="checklist-checkbox"><label for="b-1" class="checklist-label"><b>السلام والتحفيز</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-1"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="b-2" class="checklist-checkbox"><label for="b-2" class="checklist-label"><b>عرض نتائج اليوم السابق</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-2"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="b-3" class="checklist-checkbox"><label for="b-3" class="checklist-label"><b>مناقشة خطة اليوم</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-3"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="b-4" class="checklist-checkbox"><label for="b-4" class="checklist-label"><b>تأكيد تعليمات السلامة والجودة</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-4"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="b-5" class="checklist-checkbox"><label for="b-5" class="checklist-label"><b>فتح باب النقاش</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-5"></i></div>
+                            <div class="task-wrapper">
+                                <div class="checklist-item"><input type="checkbox" id="b-1" class="checklist-checkbox"><label for="b-1" class="checklist-label"><b>السلام والتحفيز</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-1"></i></div>
+                                <div class="notes-display" data-notes-for="b-1"></div>
+                            </div>
+                            <div class="task-wrapper">
+                                <div class="checklist-item"><input type="checkbox" id="b-2" class="checklist-checkbox"><label for="b-2" class="checklist-label"><b>عرض نتائج اليوم السابق</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-2"></i></div>
+                                <div class="notes-display" data-notes-for="b-2"></div>
+                            </div>
+                            <div class="task-wrapper">
+                                <div class="checklist-item"><input type="checkbox" id="b-3" class="checklist-checkbox"><label for="b-3" class="checklist-label"><b>مناقشة خطة اليوم</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-3"></i></div>
+                                <div class="notes-display" data-notes-for="b-3"></div>
+                            </div>
+                            <div class="task-wrapper">
+                                <div class="checklist-item"><input type="checkbox" id="b-4" class="checklist-checkbox"><label for="b-4" class="checklist-label"><b>تأكيد تعليمات السلامة والجودة</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-4"></i></div>
+                                <div class="notes-display" data-notes-for="b-4"></div>
+                            </div>
+                            <div class="task-wrapper">
+                                <div class="checklist-item"><input type="checkbox" id="b-5" class="checklist-checkbox"><label for="b-5" class="checklist-label"><b>فتح باب النقاش</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-5"></i></div>
+                                <div class="notes-display" data-notes-for="b-5"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="card" id="last-day-card" style="display: none;">
@@ -446,17 +491,17 @@
                         <div class="card-header"><i class="fas fa-tasks"></i> قائمة المهام</div>
                         <div class="card-content">
                             <h3 class="section-title">قبل بداية الوردية</h3>
-                            <div class="checklist-item"><input type="checkbox" id="t-b-1" class="checklist-checkbox"><label for="t-b-1" class="checklist-label">مراجعة خطة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-1"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="t-b-2" class="checklist-checkbox"><label for="t-b-2" class="checklist-label">مراجعة حالة المعدات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-2"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="t-b-3" class="checklist-checkbox"><label for="t-b-3" class="checklist-label">عمل اجتماع سريع</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-3"></i></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-1" class="checklist-checkbox"><label for="t-b-1" class="checklist-label">مراجعة خطة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-1"></i></div><div class="notes-display" data-notes-for="t-b-1"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-2" class="checklist-checkbox"><label for="t-b-2" class="checklist-label">مراجعة حالة المعدات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-2"></i></div><div class="notes-display" data-notes-for="t-b-2"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-3" class="checklist-checkbox"><label for="t-b-3" class="checklist-label">عمل اجتماع سريع</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-3"></i></div><div class="notes-display" data-notes-for="t-b-3"></div></div>
                             <h3 class="section-title" style="margin-top: 1.5rem;">أثناء الوردية</h3>
-                            <div class="checklist-item"><input type="checkbox" id="t-d-1" class="checklist-checkbox"><label for="t-d-1" class="checklist-label">متابعة تشغيل الماكينات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-1"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="t-d-2" class="checklist-checkbox"><label for="t-d-2" class="checklist-label">مراجعة جودة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-2"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="t-d-3" class="checklist-checkbox"><label for="t-d-3" class="checklist-label">متابعة مؤشرات الأداء</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-3"></i></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-1" class="checklist-checkbox"><label for="t-d-1" class="checklist-label">متابعة تشغيل الماكينات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-1"></i></div><div class="notes-display" data-notes-for="t-d-1"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-2" class="checklist-checkbox"><label for="t-d-2" class="checklist-label">مراجعة جودة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-2"></i></div><div class="notes-display" data-notes-for="t-d-2"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-3" class="checklist-checkbox"><label for="t-d-3" class="checklist-label">متابعة مؤشرات الأداء</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-3"></i></div><div class="notes-display" data-notes-for="t-d-3"></div></div>
                             <h3 class="section-title" style="margin-top: 1.5rem;">نهاية الوردية</h3>
-                            <div class="checklist-item"><input type="checkbox" id="t-a-1" class="checklist-checkbox"><label for="t-a-1" class="checklist-label">مراجعة الكميات المنتجة</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-1"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="t-a-2" class="checklist-checkbox"><label for="t-a-2" class="checklist-label">تسجيل الملاحظات والأعطال</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-2"></i></div>
-                            <div class="checklist-item"><input type="checkbox" id="t-a-3" class="checklist-checkbox"><label for="t-a-3" class="checklist-label">تجهيز تقرير التسليم</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-3"></i></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-1" class="checklist-checkbox"><label for="t-a-1" class="checklist-label">مراجعة الكميات المنتجة</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-1"></i></div><div class="notes-display" data-notes-for="t-a-1"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-2" class="checklist-checkbox"><label for="t-a-2" class="checklist-label">تسجيل الملاحظات والأعطال</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-2"></i></div><div class="notes-display" data-notes-for="t-a-2"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-3" class="checklist-checkbox"><label for="t-a-3" class="checklist-label">تجهيز تقرير التسليم</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-3"></i></div><div class="notes-display" data-notes-for="t-a-3"></div></div>
                         </div>
                     </div>
                     <div class="card">
@@ -502,7 +547,7 @@
                 </div>
             </section>
             
-            <!-- NEW: Jelly Calculator Tab -->
+            <!-- Jelly Calculator Tab -->
             <section class="tab-content" id="jelly-calculator-tab">
                 <div class="page-header"><h2>🧮 حاسبة تعبئة الجيلي</h2></div>
                 <div class="grid-container">
@@ -596,72 +641,50 @@
         document.addEventListener('DOMContentLoaded', () => {
             // --- Jelly Production Data ---
             const jellyProductionData = [
-                { shape: "كوكا", peltWeightKg: 211.1 },
-                { shape: "دبدوب", peltWeightKg: 205.5 },
-                { shape: "أرقام", peltWeightKg: 195.0 },
-                { shape: "قلب", peltWeightKg: 195.0 },
-                { shape: "نجمة", peltWeightKg: 190.2 },
-                { shape: "حروف", peltWeightKg: 195.0 },
-                { shape: "دودة", peltWeightKg: 204.1 },
-                { shape: "ديناصور", peltWeightKg: 168.5 },
-                { shape: "بيج دودة", peltWeightKg: 209.3 },
-                { shape: "بيج كنتر", peltWeightKg: 196.3 },
-                { shape: "بينتر", peltWeightKg: 140.4 },
-                { shape: "كرزة", peltWeightKg: 154.7 },
-                { shape: "تمساح", peltWeightKg: 163.7 },
-                { shape: "جمل", peltWeightKg: 165.2 },
-                { shape: "بطيخ", peltWeightKg: 189.3 },
-                { shape: "عروسة", peltWeightKg: 175.0 },
-                { shape: "عظمة", peltWeightKg: 174.2 },
-                { shape: "فراشة", peltWeightKg: 171.1 },
-                { shape: "فراولة", peltWeightKg: 187.0 },
-                { shape: "أرنب", peltWeightKg: 128.3 },
-                { shape: "فص", peltWeightKg: 188.1 },
-                { shape: "قرش", peltWeightKg: 180.8 },
-                { shape: "جيزة", peltWeightKg: 217.0 },
-                { shape: "أسنان", peltWeightKg: 180.1 },
-                { shape: "لزقة", peltWeightKg: 194.4 },
-                { shape: "مركبات", peltWeightKg: 178.8 },
-                { shape: "سلحفاة", peltWeightKg: 194.4 },
-                { shape: "بيج لاصقة", peltWeightKg: 194.4 },
-                { shape: "بطيخة", peltWeightKg: 279.9 }
+                { shape: "كوكا", peltWeightKg: 211.1 }, { shape: "دبدوب", peltWeightKg: 205.5 }, { shape: "أرقام", peltWeightKg: 195.0 },
+                { shape: "قلب", peltWeightKg: 195.0 }, { shape: "نجمة", peltWeightKg: 190.2 }, { shape: "حروف", peltWeightKg: 195.0 },
+                { shape: "دودة", peltWeightKg: 204.1 }, { shape: "ديناصور", peltWeightKg: 168.5 }, { shape: "بيج دودة", peltWeightKg: 209.3 },
+                { shape: "بيج كنتر", peltWeightKg: 196.3 }, { shape: "بينتر", peltWeightKg: 140.4 }, { shape: "كرزة", peltWeightKg: 154.7 },
+                { shape: "تمساح", peltWeightKg: 163.7 }, { shape: "جمل", peltWeightKg: 165.2 }, { shape: "بطيخ", peltWeightKg: 189.3 },
+                { shape: "عروسة", peltWeightKg: 175.0 }, { shape: "عظمة", peltWeightKg: 174.2 }, { shape: "فراشة", peltWeightKg: 171.1 },
+                { shape: "فراولة", peltWeightKg: 187.0 }, { shape: "أرنب", peltWeightKg: 128.3 }, { shape: "فص", peltWeightKg: 188.1 },
+                { shape: "قرش", peltWeightKg: 180.8 }, { shape: "جيزة", peltWeightKg: 217.0 }, { shape: "أسنان", peltWeightKg: 180.1 },
+                { shape: "لزقة", peltWeightKg: 194.4 }, { shape: "مركبات", peltWeightKg: 178.8 }, { shape: "سلحفاة", peltWeightKg: 194.4 },
+                { shape: "بيج لاصقة", peltWeightKg: 194.4 }, { shape: "بطيخة", peltWeightKg: 279.9 }
             ];
 
-            // --- Elements ---
+            // --- Elements & Initial Setup ---
             const navLinks = document.querySelectorAll('.nav-link');
             const contents = document.querySelectorAll('.tab-content');
             const menuToggle = document.getElementById('menu-toggle');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
             const historyContainer = document.getElementById('history-content-area');
+            const taskLabels = {};
+            document.querySelectorAll('.checklist-label').forEach(label => {
+                taskLabels[label.htmlFor] = label.innerText.trim();
+            });
 
             // --- Modal Logic ---
             const alertModal = {
                 el: document.getElementById('alert-modal'),
                 title: document.getElementById('alert-modal-title'),
                 body: document.getElementById('alert-modal-body'),
-                confirmBtn: document.getElementById('alert-modal-confirm'),
                 show(title, body) {
-                    this.title.textContent = title;
-                    this.body.textContent = body;
-                    this.el.classList.add('active');
+                    this.title.textContent = title; this.body.textContent = body; this.el.classList.add('active');
                 }
             };
-            alertModal.confirmBtn.addEventListener('click', () => alertModal.el.classList.remove('active'));
+            document.getElementById('alert-modal-confirm').addEventListener('click', () => alertModal.el.classList.remove('active'));
 
             const confirmModal = {
                 el: document.getElementById('confirm-modal'),
                 title: document.getElementById('confirm-modal-title'),
                 body: document.getElementById('confirm-modal-body'),
-                confirmBtn: document.getElementById('confirm-modal-confirm'),
-                cancelBtn: document.getElementById('confirm-modal-cancel'),
                 show(title, body) {
-                    this.title.textContent = title;
-                    this.body.textContent = body;
-                    this.el.classList.add('active');
+                    this.title.textContent = title; this.body.textContent = body; this.el.classList.add('active');
                     return new Promise(resolve => {
-                        this.confirmBtn.onclick = () => { this.el.classList.remove('active'); resolve(true); };
-                        this.cancelBtn.onclick = () => { this.el.classList.remove('active'); resolve(false); };
+                        document.getElementById('confirm-modal-confirm').onclick = () => { this.el.classList.remove('active'); resolve(true); };
+                        document.getElementById('confirm-modal-cancel').onclick = () => { this.el.classList.remove('active'); resolve(false); };
                     });
                 }
             };
@@ -670,8 +693,6 @@
                 el: document.getElementById('notes-modal'),
                 list: document.getElementById('notes-list'),
                 input: document.getElementById('note-input'),
-                saveBtn: document.getElementById('notes-modal-save'),
-                closeBtn: document.getElementById('notes-modal-close'),
                 currentTaskId: null,
                 show(taskId, notes) {
                     this.currentTaskId = taskId;
@@ -680,8 +701,8 @@
                     this.el.classList.add('active');
                 }
             };
-            notesModal.closeBtn.addEventListener('click', () => notesModal.el.classList.remove('active'));
-            notesModal.saveBtn.addEventListener('click', () => {
+            document.getElementById('notes-modal-close').addEventListener('click', () => notesModal.el.classList.remove('active'));
+            document.getElementById('notes-modal-save').addEventListener('click', () => {
                 const newNote = notesModal.input.value.trim();
                 if (newNote && notesModal.currentTaskId) {
                     const data = getStoredData();
@@ -689,43 +710,29 @@
                     saveData(data);
                     notesModal.el.classList.remove('active');
                     updateNoteIcons();
+                    renderTaskNotes(notesModal.currentTaskId); // Re-render notes on main UI
                 }
             });
 
-            // --- Mobile Menu ---
-            const toggleMenu = () => {
-                sidebar.classList.toggle('open');
-                overlay.classList.toggle('open');
-            };
+            // --- Mobile Menu & Navigation ---
+            const toggleMenu = () => { sidebar.classList.toggle('open'); overlay.classList.toggle('open'); };
             menuToggle.addEventListener('click', toggleMenu);
             overlay.addEventListener('click', toggleMenu);
             
-            // --- Navigation ---
             const switchTab = (tabId) => {
-                navLinks.forEach(l => {
-                    l.classList.toggle('active', l.dataset.tab === tabId);
-                });
-                contents.forEach(c => {
-                    c.classList.toggle('active', c.id === tabId + '-tab');
-                });
+                navLinks.forEach(l => l.classList.toggle('active', l.dataset.tab === tabId));
+                contents.forEach(c => c.classList.toggle('active', c.id === tabId + '-tab'));
                 if(sidebar.classList.contains('open')) toggleMenu();
-
                 if(tabId === 'history') loadHistory();
                 if(tabId === 'todo') renderTodos();
             };
+            navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); switchTab(link.dataset.tab); }));
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    switchTab(link.dataset.tab);
-                });
-            });
-
-            // --- Data Structure ---
+            // --- Data Management ---
             const DATA_KEY = 'production_data_v4';
-            const LAST_DAY_KEY = 'last_day_summary_v4';
             const HISTORY_KEY = 'production_history_v4';
             const TODO_KEY = 'production_todo_list_v1';
+            const LAST_DAY_KEY = 'last_day_summary_v4';
 
             const getStoredData = () => {
                 const emptyData = { tasks: {}, report: {}, date: null };
@@ -734,32 +741,29 @@
                     const stored = localStorage.getItem(DATA_KEY);
                     data = stored ? JSON.parse(stored) : emptyData;
                     if (typeof data !== 'object' || data === null) data = emptyData;
-                } catch (e) {
-                    console.error("Error parsing stored data:", e);
-                    data = emptyData;
-                }
+                } catch (e) { console.error("Error parsing data:", e); data = emptyData; }
                 if (!data.tasks) data.tasks = {};
                 if (!data.report) data.report = {};
                 document.querySelectorAll('.note-trigger').forEach(trigger => {
                     const id = trigger.dataset.taskId;
                     if (!data.tasks[id]) data.tasks[id] = { checked: false, notes: [] };
-                    else if (!data.tasks[id].notes) data.tasks[id].notes = [];
+                    else if (!Array.isArray(data.tasks[id].notes)) data.tasks[id].notes = [];
                 });
                 return data;
             };
 
-            const saveData = (data) => {
-                localStorage.setItem(DATA_KEY, JSON.stringify(data));
-            };
-            
+            const saveData = (data) => localStorage.setItem(DATA_KEY, JSON.stringify(data));
             const getHistory = () => JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
             const saveHistory = (history) => localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
 
             const getAndFormatCurrentData = () => {
                 const data = getStoredData(); 
-                document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
-                    if(!data.tasks[checkbox.id]) data.tasks[checkbox.id] = { checked: false, notes: [] };
-                    data.tasks[checkbox.id].checked = checkbox.checked;
+                Object.keys(taskLabels).forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) {
+                        if (!data.tasks[id]) data.tasks[id] = { checked: false, notes: [] };
+                        data.tasks[id].checked = checkbox.checked;
+                    }
                 });
                 data.report = {
                     productionQty: document.getElementById('production-qty').value,
@@ -767,19 +771,38 @@
                     issues: document.getElementById('issues-report').value,
                     improvements: document.getElementById('improvements-report').value,
                 };
-                if(!data.date) {
-                    data.date = new Date().toISOString();
-                }
+                if(!data.date) data.date = new Date().toISOString();
                 return data;
             };
 
-            // --- Core Functions ---
+            // --- UI Rendering Functions ---
             const calculateRejectionRate = (prod, def) => {
                 const production = parseFloat(prod) || 0;
                 const defective = parseFloat(def) || 0;
                 return (production > 0) ? ((defective / production) * 100).toFixed(2) + '%' : '0.00%';
             };
+            
+            const renderTaskNotes = (taskId) => {
+                const data = getStoredData();
+                const task = data.tasks[taskId];
+                const notesContainer = document.querySelector(`.notes-display[data-notes-for="${taskId}"]`);
+                if (!notesContainer) return;
 
+                notesContainer.innerHTML = '';
+                if (task && task.notes && task.notes.length > 0) {
+                    const ul = document.createElement('ul');
+                    task.notes.forEach(noteText => {
+                        const li = document.createElement('li');
+                        li.textContent = noteText;
+                        ul.appendChild(li);
+                    });
+                    notesContainer.appendChild(ul);
+                    notesContainer.style.display = 'block';
+                } else {
+                    notesContainer.style.display = 'none';
+                }
+            };
+            
             const updateNoteIcons = () => {
                 const data = getStoredData();
                 document.querySelectorAll('.note-trigger').forEach(trigger => {
@@ -791,9 +814,14 @@
             const populateUIWithData = (dataObject) => {
                 if(!dataObject) return;
                 saveData(dataObject);
-                Object.keys(dataObject.tasks || {}).forEach(taskId => {
+                Object.keys(taskLabels).forEach(taskId => {
                     const checkbox = document.getElementById(taskId);
-                    if (checkbox) checkbox.checked = dataObject.tasks[taskId].checked;
+                    if (checkbox && dataObject.tasks && dataObject.tasks[taskId]) {
+                         checkbox.checked = dataObject.tasks[taskId].checked;
+                    } else if (checkbox) {
+                        checkbox.checked = false; // Uncheck if not in data
+                    }
+                    renderTaskNotes(taskId); // Render notes for every task
                 });
                 const report = dataObject.report || {};
                 document.getElementById('production-qty').value = report.productionQty || '';
@@ -808,8 +836,7 @@
                 const currentData = getAndFormatCurrentData();
                 if(currentData.report.productionQty) {
                     const summary = {
-                        prod: currentData.report.productionQty,
-                        def: currentData.report.defectiveQty,
+                        prod: currentData.report.productionQty, def: currentData.report.defectiveQty,
                         rate: calculateRejectionRate(currentData.report.productionQty, currentData.report.defectiveQty)
                     };
                     localStorage.setItem(LAST_DAY_KEY, JSON.stringify(summary));
@@ -822,18 +849,12 @@
             const saveToHistory = () => {
                 const currentData = getAndFormatCurrentData();
                 if(!currentData.report.productionQty) {
-                    alertModal.show('خطأ', 'لا يمكن حفظ تقرير فارغ. الرجاء إدخال بيانات الإنتاج أولاً.');
-                    return false;
+                    alertModal.show('خطأ', 'لا يمكن حفظ تقرير فارغ.'); return false;
                 }
                 let history = getHistory();
                 const existingReportIndex = history.findIndex(entry => entry.date === currentData.date);
-
-                if (existingReportIndex > -1) {
-                    history[existingReportIndex] = currentData;
-                } else {
-                    history.unshift(currentData);
-                }
-                
+                if (existingReportIndex > -1) history[existingReportIndex] = currentData;
+                else history.unshift(currentData);
                 if (history.length > 50) history.pop();
                 saveHistory(history);
                 return true;
@@ -849,82 +870,72 @@
 
                 const groupedByDay = history.reduce((acc, report) => {
                     const dateKey = new Date(report.date).toLocaleDateString('en-CA');
-                    if (!acc[dateKey]) {
-                        acc[dateKey] = [];
-                    }
+                    if (!acc[dateKey]) acc[dateKey] = [];
                     acc[dateKey].push(report);
                     return acc;
                 }, {});
 
-                for (const dateKey in groupedByDay) {
+                for (const dateKey of Object.keys(groupedByDay).sort().reverse()) {
                     const reportsForDay = groupedByDay[dateKey];
                     const firstReportDate = new Date(reportsForDay[0].date);
-
                     const dayGroup = document.createElement('div');
                     dayGroup.className = 'history-day-group';
 
-                    dayGroup.innerHTML = `
-                        <div class="history-day-header">
-                            <h3>${firstReportDate.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
-                            <span>${reportsForDay.length} تقارير</span>
-                            <i class="fas fa-chevron-down chevron"></i>
-                        </div>
-                        <div class="history-day-content"></div>
-                    `;
-
+                    dayGroup.innerHTML = `<div class="history-day-header"><h3>${firstReportDate.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3><span>${reportsForDay.length} تقارير</span><i class="fas fa-chevron-down chevron"></i></div><div class="history-day-content"></div>`;
                     const contentContainer = dayGroup.querySelector('.history-day-content');
 
                     reportsForDay.forEach(entry => {
                         const date = new Date(entry.date);
+                        const tasksWithNotes = Object.entries(entry.tasks || {}).filter(([, task]) => task.notes && task.notes.length > 0);
+                        let notesHtml = '';
+                        if (tasksWithNotes.length > 0) {
+                            notesHtml += '<div class="history-notes-section">';
+                            tasksWithNotes.forEach(([taskId, task]) => {
+                                notesHtml += `<strong>${taskLabels[taskId] || 'مهمة'}:</strong><ul>${task.notes.map(n => `<li>${n}</li>`).join('')}</ul>`;
+                            });
+                            notesHtml += '</div>';
+                        }
+                        
                         const card = document.createElement('div');
                         card.className = 'card';
-                        card.innerHTML = `
-                            <div class="card-header"><i class="fas fa-clock"></i> ${date.toLocaleTimeString('ar-EG')}</div>
+                        card.innerHTML = `<div class="card-header"><i class="fas fa-clock"></i> ${date.toLocaleTimeString('ar-EG')}</div>
                             <div class="card-content">
                                 <p><strong>الإنتاج:</strong> ${entry.report.productionQty || 'N/A'}</p>
                                 <p><strong>المعيب:</strong> ${entry.report.defectiveQty || 'N/A'}</p>
                                 <p><strong>المشاكل:</strong> ${entry.report.issues || 'لا يوجد'}</p>
                                 <p><strong>الاقتراحات:</strong> ${entry.report.improvements || 'لا يوجد'}</p>
+                                ${notesHtml}
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-secondary btn-sm history-load-btn" data-date="${entry.date}"><i class="fas fa-edit"></i> تحميل للتعديل</button>
+                                <button class="btn btn-secondary btn-sm history-load-btn" data-date="${entry.date}"><i class="fas fa-edit"></i> تحميل</button>
                                 <button class="btn btn-secondary btn-sm history-delete-btn" data-date="${entry.date}" style="color: var(--danger-color)"><i class="fas fa-trash"></i> حذف</button>
                             </div>`;
                         contentContainer.appendChild(card);
                     });
-
                     historyContainer.appendChild(dayGroup);
                 }
             };
             
             historyContainer.addEventListener('click', async (e) => {
                 const header = e.target.closest('.history-day-header');
+                if (header) header.parentElement.classList.toggle('expanded');
+                
                 const loadBtn = e.target.closest('.history-load-btn');
-                const deleteBtn = e.target.closest('.history-delete-btn');
-
-                if (header) {
-                    header.parentElement.classList.toggle('expanded');
-                }
-
                 if (loadBtn) {
-                    const date = loadBtn.dataset.date;
-                    const history = getHistory();
-                    const reportData = history.find(entry => entry.date === date);
+                    const reportData = getHistory().find(entry => entry.date === loadBtn.dataset.date);
                     if(reportData) {
                         populateUIWithData(reportData);
-                        alertModal.show('تم التحميل', 'تم تحميل بيانات التقرير المحدد. يمكنك الآن تعديلها في تبويب "المهام والتقرير".');
+                        alertModal.show('تم التحميل', 'تم تحميل بيانات التقرير للتعديل.');
                         switchTab('tasks');
                     }
                 }
-
+                
+                const deleteBtn = e.target.closest('.history-delete-btn');
                 if (deleteBtn) {
                     const date = deleteBtn.dataset.date;
-                    const confirmed = await confirmModal.show('تأكيد الحذف', 'هل أنت متأكد من رغبتك في حذف هذا التقرير نهائياً؟');
-                    if(confirmed){
-                        let history = getHistory();
-                        history = history.filter(entry => entry.date !== date);
-                        saveHistory(history);
-                        loadHistory(); // Refresh the history view
+                    if(await confirmModal.show('تأكيد الحذف', 'هل أنت متأكد من حذف هذا التقرير؟')){
+                        saveHistory(getHistory().filter(entry => entry.date !== date));
+                        loadHistory();
                     }
                 }
             });
@@ -937,9 +948,7 @@
                     document.getElementById('last-day-def').textContent = summary.def;
                     document.getElementById('last-day-rate').textContent = summary.rate;
                     card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                } else { card.style.display = 'none'; }
             };
 
             // --- To-Do List Functions ---
@@ -950,26 +959,22 @@
 
             const getTodos = () => JSON.parse(localStorage.getItem(TODO_KEY) || '[]');
             const saveTodos = (todos) => localStorage.setItem(TODO_KEY, JSON.stringify(todos));
-
+            
             const renderTodos = () => {
                 const todos = getTodos();
                 todoListContainer.innerHTML = '';
                 if(todos.length === 0) {
-                    todoListContainerParent.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">لا توجد مهام حاليًا. أضف مهمة جديدة للبدء!</p>';
+                    todoListContainerParent.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">لا توجد مهام حاليًا.</p>';
                 } else {
                     if (todoListContainerParent.querySelector('p')) {
-                         todoListContainerParent.innerHTML = '';
-                         todoListContainerParent.appendChild(todoListContainer);
+                        todoListContainerParent.innerHTML = '';
+                        todoListContainerParent.appendChild(todoListContainer);
                     }
                     todos.forEach(todo => {
                         const li = document.createElement('li');
                         li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
                         li.dataset.id = todo.id;
-                        li.innerHTML = `
-                            <input type="checkbox" id="todo-${todo.id}" class="checklist-checkbox" ${todo.completed ? 'checked' : ''}>
-                            <label for="todo-${todo.id}">${todo.text}</label>
-                            <button class="todo-delete-btn"><i class="fas fa-trash-alt"></i></button>
-                        `;
+                        li.innerHTML = `<input type="checkbox" id="todo-${todo.id}" class="checklist-checkbox" ${todo.completed ? 'checked' : ''}><label for="todo-${todo.id}">${todo.text}</label><button class="todo-delete-btn"><i class="fas fa-trash-alt"></i></button>`;
                         todoListContainer.appendChild(li);
                     });
                 }
@@ -979,10 +984,8 @@
                 e.preventDefault();
                 const text = todoInput.value.trim();
                 if (text) {
-                    const todos = getTodos();
                     const newTodo = { id: Date.now(), text, completed: false };
-                    todos.unshift(newTodo);
-                    saveTodos(todos);
+                    saveTodos([newTodo, ...getTodos()]);
                     renderTodos();
                     todoInput.value = '';
                 }
@@ -995,16 +998,10 @@
                 if (e.target.type === 'checkbox') {
                     const todos = getTodos();
                     const todo = todos.find(t => t.id === todoId);
-                    if (todo) {
-                        todo.completed = !todo.completed;
-                        saveTodos(todos);
-                        renderTodos();
-                    }
+                    if (todo) { todo.completed = !todo.completed; saveTodos(todos); renderTodos(); }
                 }
                 if (e.target.closest('.todo-delete-btn')) {
-                    let todos = getTodos();
-                    todos = todos.filter(t => t.id !== todoId);
-                    saveTodos(todos);
+                    saveTodos(getTodos().filter(t => t.id !== todoId));
                     renderTodos();
                 }
             });
@@ -1016,8 +1013,7 @@
             const populateJellySelect = () => {
                 jellyProductionData.forEach(item => {
                     const option = document.createElement('option');
-                    option.value = item.peltWeightKg;
-                    option.textContent = item.shape;
+                    option.value = item.peltWeightKg; option.textContent = item.shape;
                     jellyTypeSelect.appendChild(option);
                 });
             };
@@ -1029,68 +1025,51 @@
                 const bagWeightG = parseFloat(document.getElementById('jelly-bag-weight').value);
                 const bagsPerCarton = parseFloat(document.getElementById('jelly-bags-per-carton').value);
                 
-                if (isNaN(peltWeightKg) || isNaN(numPelts) || isNaN(bagWeightG) || isNaN(bagsPerCarton)) {
-                    alertModal.show('خطأ', 'الرجاء التأكد من إدخال قيم رقمية صحيحة في جميع الحقول.');
-                    return;
+                if ([peltWeightKg, numPelts, bagWeightG, bagsPerCarton].some(isNaN)) {
+                    alertModal.show('خطأ', 'يرجى إدخال قيم رقمية صحيحة.'); return;
                 }
 
                 const totalWeightKg = peltWeightKg * numPelts;
-                const totalWeightG = totalWeightKg * 1000;
-                
-                const bagsNeeded = Math.floor(totalWeightG / bagWeightG);
+                const bagsNeeded = Math.floor((totalWeightKg * 1000) / bagWeightG);
                 const cartonsNeeded = Math.floor(bagsNeeded / bagsPerCarton);
                 
                 document.getElementById('result-total-weight').textContent = `${totalWeightKg.toFixed(2)} كجم`;
                 document.getElementById('result-bags-needed').textContent = bagsNeeded.toLocaleString();
                 document.getElementById('result-cartons-needed').textContent = cartonsNeeded.toLocaleString();
-                
                 document.getElementById('jelly-results').style.display = 'block';
             });
             
-            // --- Event Listeners ---
+            // --- General Event Listeners & Initial Load ---
             document.getElementById('save-btn').addEventListener('click', () => {
-                if (saveToHistory()) {
-                   alertModal.show('نجاح', 'تم حفظ أو تحديث التقرير في السجل بنجاح.');
-                }
+                if (saveToHistory()) alertModal.show('نجاح', 'تم حفظ التقرير في السجل.');
             });
-
             document.getElementById('load-btn').addEventListener('click', () => {
                 const history = getHistory();
                 if (history.length > 0) {
                     populateUIWithData(history[0]);
-                    alertModal.show('نجاح', 'تم تحميل آخر تقرير محفوظ بنجاح.');
+                    alertModal.show('نجاح', 'تم تحميل آخر تقرير.');
                     switchTab('tasks');
-                } else {
-                    alertModal.show('معلومات', 'لا توجد تقارير محفوظة في السجل لتحميلها.');
-                }
+                } else { alertModal.show('معلومات', 'لا توجد تقارير محفوظة.'); }
             });
-
             document.getElementById('reset-btn').addEventListener('click', async () => {
-                const confirmed = await confirmModal.show('تأكيد', 'هل أنت متأكد من بدء يوم جديد؟ سيتم حفظ ملخص اليوم الحالي ومسح باقي البيانات.');
-                if (confirmed) {
-                    resetData();
-                    alertModal.show('نجاح', 'تم إعداد النظام ليوم جديد.');
+                if (await confirmModal.show('تأكيد', 'هل تريد بدء يوم جديد؟ سيتم أرشفة ملخص اليوم الحالي.')) {
+                    resetData(); alertModal.show('نجاح', 'تم إعداد النظام ليوم جديد.');
                 }
             });
 
             document.querySelectorAll('.note-trigger').forEach(trigger => {
                 trigger.addEventListener('click', () => {
-                    const taskId = trigger.dataset.taskId;
-                    const data = getStoredData();
-                    notesModal.show(taskId, data.tasks[taskId].notes);
+                    notesModal.show(trigger.dataset.taskId, getStoredData().tasks[trigger.dataset.taskId].notes);
                 });
             });
 
-            const productionQtyInput = document.getElementById('production-qty');
-            const defectiveQtyInput = document.getElementById('defective-qty');
-            const rejectionRateEl = document.getElementById('rejection-rate');
-
-            const updateLiveRejectionRate = () => {
-                rejectionRateEl.textContent = calculateRejectionRate(productionQtyInput.value, defectiveQtyInput.value);
+            const liveUpdateRejectionRate = () => {
+                document.getElementById('rejection-rate').textContent = calculateRejectionRate(
+                    document.getElementById('production-qty').value, document.getElementById('defective-qty').value
+                );
             };
-
-            productionQtyInput.addEventListener('input', updateLiveRejectionRate);
-            defectiveQtyInput.addEventListener('input', updateLiveRejectionRate);
+            document.getElementById('production-qty').addEventListener('input', liveUpdateRejectionRate);
+            document.getElementById('defective-qty').addEventListener('input', liveUpdateRejectionRate);
 
             document.body.addEventListener('input', (e) => {
                 if (e.target.closest('#tasks-tab') || e.target.closest('#briefing-tab')) {
@@ -1098,10 +1077,9 @@
                 }
             });
             
-            // --- Initial Load ---
-            populateUIWithData(getStoredData()); // Load any work-in-progress on start
+            populateUIWithData(getStoredData());
             loadLastDaySummary();
-            populateJellySelect(); // Populate the jelly types on load
+            populateJellySelect();
         });
     </script>
 </body>
