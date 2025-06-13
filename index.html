@@ -57,6 +57,11 @@
             flex-direction: column;
             transition: transform 0.3s ease;
         }
+
+        html[dir="ltr"] .sidebar {
+            border-left: none;
+            border-right: 1px solid var(--border-color);
+        }
         
         .sidebar-header {
             text-align: center;
@@ -97,8 +102,15 @@
         .tab-content.active { display: block; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .page-header { margin-bottom: 2rem; }
-        .page-header h2 { font-size: 2rem; font-weight: 700; }
+        .page-header { 
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .page-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0; }
         
         .grid-container {
             display: grid;
@@ -135,9 +147,7 @@
         }
         
         /* Checklist & Notes Display */
-        .task-wrapper {
-            padding: 0.25rem 0;
-        }
+        .task-wrapper { padding: 0.25rem 0; }
         .checklist-item {
             display: flex; align-items: center; gap: 0.75rem;
             padding: 0.75rem; border-radius: 8px; transition: background-color 0.2s;
@@ -163,21 +173,15 @@
             border-radius: 6px;
             border: 1px solid var(--border-color);
         }
-        .notes-display ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+        html[dir="ltr"] .notes-display { margin: 0 3.2rem 0.5rem 0.75rem; }
+        .notes-display ul { list-style: none; padding: 0; margin: 0; }
         .notes-display li {
             font-size: 0.9rem;
             color: var(--text-secondary);
             padding: 0.25rem 0;
             border-bottom: 1px dashed #e2e8f0;
         }
-        .notes-display li:last-child {
-            border-bottom: none;
-        }
-
+        .notes-display li:last-child { border-bottom: none; }
 
         /* Buttons */
         .btn {
@@ -198,6 +202,7 @@
         }
         .btn-secondary:hover { border-color: var(--primary-color); background-color: #f1f5f9; }
         .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem;}
+        #lang-toggle-btn { font-weight: 700; }
 
         .actions-bar {
             display: flex; justify-content: center; gap: 1rem;
@@ -218,12 +223,18 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
         .form-textarea { min-height: 100px; resize: vertical; }
+        .form-switch {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
 
         /* To-Do List Specific Styles */
         .todo-list { list-style: none; padding: 0; }
         .todo-item {
             display: flex; 
-            align-items: flex-start; /* Align items to top for long text */
+            align-items: flex-start;
             gap: 0.75rem;
             padding: 0.85rem 0.75rem; 
             border-bottom: 1px solid var(--border-color);
@@ -232,12 +243,12 @@
         }
         @keyframes fadeInItem { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         .todo-item:last-child { border-bottom: none; }
-        .todo-item .checklist-checkbox { margin-top: 4px; /* Align checkbox better with first line of text */ }
+        .todo-item .checklist-checkbox { margin-top: 4px; }
         .todo-item label { 
             flex-grow: 1; 
             cursor: pointer; 
             font-weight: 500;
-            word-break: break-word; /* Handle long labels */
+            word-break: break-word;
             overflow-wrap: break-word;
         }
         .todo-item.completed label { text-decoration: line-through; color: var(--text-secondary); font-weight: normal; }
@@ -248,10 +259,7 @@
             margin-top: 2px;
         }
         .todo-delete-btn:hover { color: var(--danger-color); transform: scale(1.1); }
-        #todo-form {
-            display: flex; gap: 1rem; align-items: center;
-        }
-
+        #todo-form { display: flex; gap: 1rem; align-items: center; }
 
         /* Modal */
         .modal-overlay {
@@ -270,9 +278,7 @@
         .modal-footer { display: flex; justify-content: flex-end; gap: 0.5rem; }
 
         /* History Accordion Styles */
-        #history-tab .grid-container {
-            grid-template-columns: 1fr;
-        }
+        #history-tab .grid-container { grid-template-columns: 1fr; }
         .history-day-group {
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -291,96 +297,167 @@
             border-bottom: 1px solid transparent;
             transition: border-color 0.3s ease;
         }
-        .history-day-group.expanded .history-day-header {
-            border-bottom-color: var(--border-color);
-        }
-        .history-day-header h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin: 0;
-        }
+        .history-day-group.expanded .history-day-header { border-bottom-color: var(--border-color); }
+        .history-day-header h3 { font-size: 1.2rem; font-weight: 600; color: var(--primary-color); margin: 0; }
         .history-day-header span {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            background-color: var(--border-color);
-            padding: 0.2rem 0.6rem;
-            border-radius: 99px;
+            font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);
+            background-color: var(--border-color); padding: 0.2rem 0.6rem; border-radius: 99px;
         }
-        .history-day-header .chevron {
-            transition: transform 0.3s ease;
-        }
-        .history-day-group.expanded .chevron {
-            transform: rotate(180deg);
-        }
+        .history-day-header .chevron { transition: transform 0.3s ease; }
+        .history-day-group.expanded .chevron { transform: rotate(180deg); }
         .history-day-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-in-out, padding 0.4s ease;
         }
-        .history-day-group.expanded .history-day-content {
-            max-height: 2000px;
-            padding: 1.5rem;
-        }
-        .history-day-content .card {
-            margin-bottom: 1rem;
-            box-shadow: none;
-            border: 1px solid #e2e8f0;
-        }
-        .history-day-content .card:last-child {
-            margin-bottom: 0;
-        }
-        .history-notes-section {
-            padding-top: 1rem;
-            margin-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
+        .history-day-group.expanded .history-day-content { max-height: 2000px; padding: 1.5rem; }
+        .history-day-content .card { margin-bottom: 1rem; box-shadow: none; border: 1px solid #e2e8f0; }
+        .history-day-content .card:last-child { margin-bottom: 0; }
+        .history-notes-section { padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--border-color); }
 
         /* Jelly Calculator Styles */
         #jelly-results {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            background-color: #fff;
-            display: none; /* Initially hidden */
+            margin-top: 2rem; padding: 1.5rem; border: 1px solid var(--border-color);
+            border-radius: 12px; background-color: #fff; display: none;
         }
         #jelly-results h3 {
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
+            margin-bottom: 1rem; font-size: 1.3rem; color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem;
         }
         .result-item {
+            display: flex; justify-content: space-between;
+            padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); font-size: 1.1rem;
+        }
+        .result-item:last-child { border-bottom: none; }
+        .result-item span:first-child { font-weight: 600; color: var(--text-primary); }
+        .result-item span:last-child { font-weight: 700; color: var(--success-color); }
+        
+        /* NEW: Advanced Learn English Styles */
+        .learn-english-container {
             display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 1.1rem;
+            gap: 2rem;
+            height: calc(100vh - 12rem); /* Adjust based on your header/footer height */
         }
-        .result-item:last-child {
-            border-bottom: none;
+        .vocab-list-panel {
+            flex: 0 0 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
-        .result-item span:first-child {
+        .vocab-detail-panel {
+            flex-grow: 1;
+        }
+        #vocab-search-input { margin-bottom: 0; }
+        .vocab-list {
+            list-style: none;
+            padding: 0.5rem;
+            margin: 0;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            border-radius: 8px;
+            flex-grow: 1;
+        }
+        .vocab-list-item {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            font-weight: 500;
+        }
+        .vocab-list-item:hover {
+            background-color: #f1f5f9;
+        }
+        .vocab-list-item.active {
+            background-color: var(--primary-color);
+            color: white;
             font-weight: 600;
-            color: var(--text-primary);
         }
-        .result-item span:last-child {
-            font-weight: 700;
-            color: var(--success-color);
+        .vocab-detail-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
-
+        #vocab-detail-content {
+            display: none;
+        }
+        #vocab-initial-prompt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        #vocab-initial-prompt i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--border-color);
+        }
+        .vocab-detail-image-container {
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            position: relative;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .vocab-detail-image-container img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+        }
+        .vocab-detail-image-container .image-placeholder {
+            font-size: 3rem;
+            color: var(--border-color);
+        }
+        .loader {
+            position: absolute; top: 50%; left: 50%;
+            width: 48px; height: 48px;
+            margin: -24px 0 0 -24px;
+            border: 5px solid var(--border-color);
+            border-bottom-color: var(--primary-color);
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #vocab-detail-term-en { font-size: 2.5rem; font-weight: 700; color: var(--primary-color); }
+        #vocab-detail-term-ar { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        #vocab-detail-explanation { font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem; }
+        .suggestions-container h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
+        .suggestions-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .suggestion-tag {
+            background-color: rgba(79, 70, 229, 0.1);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .suggestion-tag:hover { background-color: rgba(79, 70, 229, 0.2); }
 
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar {
                 position: fixed; top: 0; right: 0; bottom: 0;
                 transform: translateX(100%); z-index: 2000;
-                border-left: none; box-shadow: -2px 0 15px rgba(0,0,0,0.1);
             }
-            .sidebar.open { transform: translateX(0); }
+            html[dir="ltr"] .sidebar {
+                transform: translateX(-100%);
+                right: auto;
+                left: 0;
+            }
+            html .sidebar.open {
+                transform: translateX(0);
+            }
             .main-content { padding: 1.5rem; padding-top: 6rem; }
             .mobile-top-bar {
                 display: flex; justify-content: space-between; align-items: center;
@@ -393,32 +470,26 @@
             #menu-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
             .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
             .overlay.open { display: block; }
+            .learn-english-container { flex-direction: column; height: auto; }
+            .vocab-list-panel { flex: 0 0 auto; height: 250px; }
         }
         
         @media (max-width: 768px) {
-            #todo-form {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            #todo-input {
-                font-size: 1.1rem;
-            }
-            #todo-form button {
-                width: 100%;
-            }
+            #todo-form { flex-direction: column; align-items: stretch; }
+            #todo-input { font-size: 1.1rem; }
+            #todo-form button { width: 100%; }
         }
 
         @media (min-width: 993px) {
             .mobile-top-bar { display: none; }
             .overlay { display: none; }
         }
-
     </style>
 </head>
 <body>
 
     <div class="mobile-top-bar">
-        <div class="logo">إنتاج</div>
+        <div class="logo" data-lang-key="production">إنتاج</div>
         <button id="menu-toggle"><i class="fas fa-bars"></i></button>
     </div>
     <div class="overlay" id="overlay"></div>
@@ -427,16 +498,17 @@
         <!-- Sidebar Navigation -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h1>لوحة الإنتاج</h1>
-                <p>إدارة الوردية اليومية</p>
+                <h1 data-lang-key="dashboardTitle">لوحة الإنتاج</h1>
+                <p data-lang-key="dashboardSubtitle">إدارة الوردية اليومية</p>
             </div>
             <nav>
                 <ul class="nav-menu">
-                    <li class="nav-item"><a href="#" class="nav-link active" data-tab="briefing"><i class="fas fa-sun"></i> اجتماع الوردية</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link" data-tab="tasks"><i class="fas fa-tasks"></i> المهام والتقرير</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link" data-tab="history"><i class="fas fa-history"></i> سجل التقارير</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link" data-tab="todo"><i class="fas fa-list-check"></i> قائمة المهام</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link" data-tab="jelly-calculator"><i class="fas fa-calculator"></i> حاسبة الجيلي</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link active" data-tab="briefing" data-lang-key="tabBriefing"><i class="fas fa-sun"></i> <span>اجتماع الوردية</span></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="tasks" data-lang-key="tabTasks"><i class="fas fa-tasks"></i> <span>المهام والتقرير</span></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="history" data-lang-key="tabHistory"><i class="fas fa-history"></i> <span>سجل التقارير</span></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="todo" data-lang-key="tabTodo"><i class="fas fa-list-check"></i> <span>قائمة المهام</span></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="jelly-calculator" data-lang-key="tabJellyCalculator"><i class="fas fa-calculator"></i> <span>حاسبة الجيلي</span></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-tab="learn-english" data-lang-key="tabLearnEnglish"><i class="fas fa-graduation-cap"></i> <span>تعلم الإنجليزية</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -445,39 +517,27 @@
         <main class="main-content">
             <!-- Briefing Tab -->
             <section class="tab-content active" id="briefing-tab">
-                <div class="page-header"><h2>📋 اجتماع بداية الوردية</h2></div>
+                <div class="page-header">
+                    <h2 data-lang-key="headerBriefing">📋 اجتماع بداية الوردية</h2>
+                    <button id="lang-toggle-btn-briefing" class="btn btn-secondary btn-sm lang-toggle-btn">EN</button>
+                </div>
                 <div class="grid-container">
                     <div class="card">
-                        <div class="card-header"><i class="fas fa-bullhorn"></i> نقاط الاجتماع</div>
+                        <div class="card-header"><i class="fas fa-bullhorn"></i> <span data-lang-key="cardMeetingPoints">نقاط الاجتماع</span></div>
                         <div class="card-content">
-                            <div class="task-wrapper">
-                                <div class="checklist-item"><input type="checkbox" id="b-1" class="checklist-checkbox"><label for="b-1" class="checklist-label"><b>السلام والتحفيز</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-1"></i></div>
-                                <div class="notes-display" data-notes-for="b-1"></div>
-                            </div>
-                            <div class="task-wrapper">
-                                <div class="checklist-item"><input type="checkbox" id="b-2" class="checklist-checkbox"><label for="b-2" class="checklist-label"><b>عرض نتائج اليوم السابق</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-2"></i></div>
-                                <div class="notes-display" data-notes-for="b-2"></div>
-                            </div>
-                            <div class="task-wrapper">
-                                <div class="checklist-item"><input type="checkbox" id="b-3" class="checklist-checkbox"><label for="b-3" class="checklist-label"><b>مناقشة خطة اليوم</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-3"></i></div>
-                                <div class="notes-display" data-notes-for="b-3"></div>
-                            </div>
-                            <div class="task-wrapper">
-                                <div class="checklist-item"><input type="checkbox" id="b-4" class="checklist-checkbox"><label for="b-4" class="checklist-label"><b>تأكيد تعليمات السلامة والجودة</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-4"></i></div>
-                                <div class="notes-display" data-notes-for="b-4"></div>
-                            </div>
-                            <div class="task-wrapper">
-                                <div class="checklist-item"><input type="checkbox" id="b-5" class="checklist-checkbox"><label for="b-5" class="checklist-label"><b>فتح باب النقاش</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-5"></i></div>
-                                <div class="notes-display" data-notes-for="b-5"></div>
-                            </div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="b-1" class="checklist-checkbox"><label for="b-1" class="checklist-label" data-lang-key="task_b-1"><b>السلام والتحفيز</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-1"></i></div><div class="notes-display" data-notes-for="b-1"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="b-2" class="checklist-checkbox"><label for="b-2" class="checklist-label" data-lang-key="task_b-2"><b>عرض نتائج اليوم السابق</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-2"></i></div><div class="notes-display" data-notes-for="b-2"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="b-3" class="checklist-checkbox"><label for="b-3" class="checklist-label" data-lang-key="task_b-3"><b>مناقشة خطة اليوم</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-3"></i></div><div class="notes-display" data-notes-for="b-3"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="b-4" class="checklist-checkbox"><label for="b-4" class="checklist-label" data-lang-key="task_b-4"><b>تأكيد تعليمات السلامة والجودة</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-4"></i></div><div class="notes-display" data-notes-for="b-4"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="b-5" class="checklist-checkbox"><label for="b-5" class="checklist-label" data-lang-key="task_b-5"><b>فتح باب النقاش</b></label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="b-5"></i></div><div class="notes-display" data-notes-for="b-5"></div></div>
                         </div>
                     </div>
                     <div class="card" id="last-day-card" style="display: none;">
-                        <div class="card-header" style="color: var(--warning-color);"><i class="fas fa-chart-line"></i> أداء اليوم السابق</div>
+                        <div class="card-header" style="color: var(--warning-color);"><i class="fas fa-chart-line"></i> <span data-lang-key="cardPrevDay">أداء اليوم السابق</span></div>
                         <div class="card-content">
-                            <p><strong>الكمية المنتجة:</strong> <span id="last-day-prod">0</span></p>
-                            <p><strong>الوحدات المعيبة:</strong> <span id="last-day-def">0</span></p>
-                            <p><strong>نسبة الرفض:</strong> <span id="last-day-rate">0.00%</span></p>
+                            <p><strong data-lang-key="prodQty">الكمية المنتجة:</strong> <span id="last-day-prod">0</span></p>
+                            <p><strong data-lang-key="defectiveQty">الوحدات المعيبة:</strong> <span id="last-day-def">0</span></p>
+                            <p><strong data-lang-key="rejectionRate">نسبة الرفض:</strong> <span id="last-day-rate">0.00%</span></p>
                         </div>
                     </div>
                 </div>
@@ -485,33 +545,36 @@
 
             <!-- Tasks & Report Tab -->
             <section class="tab-content" id="tasks-tab">
-                <div class="page-header"><h2>📌 قائمة المهام والتقرير اليومي</h2></div>
+                <div class="page-header">
+                    <h2 data-lang-key="headerTasks">📌 قائمة المهام والتقرير اليومي</h2>
+                    <button id="lang-toggle-btn-tasks" class="btn btn-secondary btn-sm lang-toggle-btn">EN</button>
+                </div>
                 <div class="grid-container">
                     <div class="card">
-                        <div class="card-header"><i class="fas fa-tasks"></i> قائمة المهام</div>
+                        <div class="card-header"><i class="fas fa-tasks"></i> <span data-lang-key="cardTasks">قائمة المهام</span></div>
                         <div class="card-content">
-                            <h3 class="section-title">قبل بداية الوردية</h3>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-1" class="checklist-checkbox"><label for="t-b-1" class="checklist-label">مراجعة خطة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-1"></i></div><div class="notes-display" data-notes-for="t-b-1"></div></div>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-2" class="checklist-checkbox"><label for="t-b-2" class="checklist-label">مراجعة حالة المعدات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-2"></i></div><div class="notes-display" data-notes-for="t-b-2"></div></div>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-3" class="checklist-checkbox"><label for="t-b-3" class="checklist-label">عمل اجتماع سريع</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-3"></i></div><div class="notes-display" data-notes-for="t-b-3"></div></div>
-                            <h3 class="section-title" style="margin-top: 1.5rem;">أثناء الوردية</h3>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-1" class="checklist-checkbox"><label for="t-d-1" class="checklist-label">متابعة تشغيل الماكينات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-1"></i></div><div class="notes-display" data-notes-for="t-d-1"></div></div>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-2" class="checklist-checkbox"><label for="t-d-2" class="checklist-label">مراجعة جودة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-2"></i></div><div class="notes-display" data-notes-for="t-d-2"></div></div>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-3" class="checklist-checkbox"><label for="t-d-3" class="checklist-label">متابعة مؤشرات الأداء</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-3"></i></div><div class="notes-display" data-notes-for="t-d-3"></div></div>
-                            <h3 class="section-title" style="margin-top: 1.5rem;">نهاية الوردية</h3>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-1" class="checklist-checkbox"><label for="t-a-1" class="checklist-label">مراجعة الكميات المنتجة</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-1"></i></div><div class="notes-display" data-notes-for="t-a-1"></div></div>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-2" class="checklist-checkbox"><label for="t-a-2" class="checklist-label">تسجيل الملاحظات والأعطال</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-2"></i></div><div class="notes-display" data-notes-for="t-a-2"></div></div>
-                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-3" class="checklist-checkbox"><label for="t-a-3" class="checklist-label">تجهيز تقرير التسليم</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-3"></i></div><div class="notes-display" data-notes-for="t-a-3"></div></div>
+                            <h3 class="section-title" data-lang-key="tasksBefore">قبل بداية الوردية</h3>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-1" class="checklist-checkbox"><label for="t-b-1" class="checklist-label" data-lang-key="task_t-b-1">مراجعة خطة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-1"></i></div><div class="notes-display" data-notes-for="t-b-1"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-2" class="checklist-checkbox"><label for="t-b-2" class="checklist-label" data-lang-key="task_t-b-2">مراجعة حالة المعدات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-2"></i></div><div class="notes-display" data-notes-for="t-b-2"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-b-3" class="checklist-checkbox"><label for="t-b-3" class="checklist-label" data-lang-key="task_t-b-3">عمل اجتماع سريع</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-b-3"></i></div><div class="notes-display" data-notes-for="t-b-3"></div></div>
+                            <h3 class="section-title" style="margin-top: 1.5rem;" data-lang-key="tasksDuring">أثناء الوردية</h3>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-1" class="checklist-checkbox"><label for="t-d-1" class="checklist-label" data-lang-key="task_t-d-1">متابعة تشغيل الماكينات</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-1"></i></div><div class="notes-display" data-notes-for="t-d-1"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-2" class="checklist-checkbox"><label for="t-d-2" class="checklist-label" data-lang-key="task_t-d-2">مراجعة جودة الإنتاج</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-2"></i></div><div class="notes-display" data-notes-for="t-d-2"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-d-3" class="checklist-checkbox"><label for="t-d-3" class="checklist-label" data-lang-key="task_t-d-3">متابعة مؤشرات الأداء</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-d-3"></i></div><div class="notes-display" data-notes-for="t-d-3"></div></div>
+                            <h3 class="section-title" style="margin-top: 1.5rem;" data-lang-key="tasksAfter">نهاية الوردية</h3>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-1" class="checklist-checkbox"><label for="t-a-1" class="checklist-label" data-lang-key="task_t-a-1">مراجعة الكميات المنتجة</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-1"></i></div><div class="notes-display" data-notes-for="t-a-1"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-2" class="checklist-checkbox"><label for="t-a-2" class="checklist-label" data-lang-key="task_t-a-2">تسجيل الملاحظات والأعطال</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-2"></i></div><div class="notes-display" data-notes-for="t-a-2"></div></div>
+                            <div class="task-wrapper"><div class="checklist-item"><input type="checkbox" id="t-a-3" class="checklist-checkbox"><label for="t-a-3" class="checklist-label" data-lang-key="task_t-a-3">تجهيز تقرير التسليم</label><i class="fa-regular fa-note-sticky note-trigger" data-task-id="t-a-3"></i></div><div class="notes-display" data-notes-for="t-a-3"></div></div>
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header"><i class="fas fa-file-alt"></i> التقرير اليومي</div>
+                        <div class="card-header"><i class="fas fa-file-alt"></i> <span data-lang-key="cardDailyReport">التقرير اليومي</span></div>
                         <div class="card-content">
-                            <div class="input-group"><label for="production-qty">الكمية المنتجة</label><input type="number" id="production-qty" class="form-input"></div>
-                            <div class="input-group"><label for="defective-qty">الوحدات المعيبة</label><input type="number" id="defective-qty" class="form-input"></div>
-                            <div class="input-group"><label>نسبة الرفض</label><strong id="rejection-rate" style="font-size: 1.2rem;">0.00%</strong></div>
-                            <div class="input-group"><label for="issues-report">المشاكل والعقبات</label><textarea id="issues-report" class="form-textarea" placeholder="سجل المشاكل..."></textarea></div>
-                            <div class="input-group"><label for="improvements-report">ملاحظات واقتراحات</label><textarea id="improvements-report" class="form-textarea" placeholder="سجل الاقتراحات..."></textarea></div>
+                            <div class="input-group"><label for="production-qty" data-lang-key="prodQty">الكمية المنتجة</label><input type="number" id="production-qty" class="form-input"></div>
+                            <div class="input-group"><label for="defective-qty" data-lang-key="defectiveQty">الوحدات المعيبة</label><input type="number" id="defective-qty" class="form-input"></div>
+                            <div class="input-group"><label data-lang-key="rejectionRate">نسبة الرفض</label><strong id="rejection-rate" style="font-size: 1.2rem;">0.00%</strong></div>
+                            <div class="input-group"><label for="issues-report" data-lang-key="issues">المشاكل والعقبات</label><textarea id="issues-report" class="form-textarea" data-lang-key-placeholder="placeholderIssues"></textarea></div>
+                            <div class="input-group"><label for="improvements-report" data-lang-key="suggestions">ملاحظات واقتراحات</label><textarea id="improvements-report" class="form-textarea" data-lang-key-placeholder="placeholderSuggestions"></textarea></div>
                         </div>
                     </div>
                 </div>
@@ -519,25 +582,31 @@
 
             <!-- History Tab -->
             <section class="tab-content" id="history-tab">
-                <div class="page-header"><h2>📂 سجل التقارير المحفوظة</h2></div>
+                <div class="page-header">
+                    <h2 data-lang-key="headerHistory">📂 سجل التقارير المحفوظة</h2>
+                    <button id="lang-toggle-btn-history" class="btn btn-secondary btn-sm lang-toggle-btn">EN</button>
+                </div>
                 <div id="history-content-area" class="grid-container"></div>
             </section>
             
             <!-- To-Do List Tab -->
             <section class="tab-content" id="todo-tab">
-                <div class="page-header"><h2>📝 قائمة المهام الإضافية</h2></div>
+                <div class="page-header">
+                    <h2 data-lang-key="headerTodo">📝 قائمة المهام الإضافية</h2>
+                    <button id="lang-toggle-btn-todo" class="btn btn-secondary btn-sm lang-toggle-btn">EN</button>
+                </div>
                 <div class="grid-container">
                     <div class="card" style="grid-column: 1 / -1;">
-                        <div class="card-header"><i class="fas fa-plus-circle"></i> إضافة مهمة جديدة</div>
+                        <div class="card-header"><i class="fas fa-plus-circle"></i> <span data-lang-key="cardNewTask">إضافة مهمة جديدة</span></div>
                         <div class="card-content">
                             <form id="todo-form">
-                                <input type="text" id="todo-input" class="form-input" placeholder="اكتب مهمة جديدة..." required>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة</button>
+                                <input type="text" id="todo-input" class="form-input" data-lang-key-placeholder="placeholderNewTask" required>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> <span data-lang-key="add">إضافة</span></button>
                             </form>
                         </div>
                     </div>
                     <div class="card" style="grid-column: 1 / -1;">
-                        <div class="card-header"><i class="fas fa-list-ul"></i> المهام الحالية</div>
+                        <div class="card-header"><i class="fas fa-list-ul"></i> <span data-lang-key="cardCurrentTasks">المهام الحالية</span></div>
                         <div class="card-content" id="todo-list-container-parent">
                              <ul id="todo-list-container" class="todo-list">
                                 <!-- To-do items will be injected here by JavaScript -->
@@ -549,56 +618,102 @@
             
             <!-- Jelly Calculator Tab -->
             <section class="tab-content" id="jelly-calculator-tab">
-                <div class="page-header"><h2>🧮 حاسبة تعبئة الجيلي</h2></div>
+                <div class="page-header">
+                    <h2 data-lang-key="headerJelly">🧮 حاسبة تعبئة الجيلي</h2>
+                    <button id="lang-toggle-btn-jelly" class="btn btn-secondary btn-sm lang-toggle-btn">EN</button>
+                </div>
                 <div class="grid-container">
                     <div class="card" style="grid-column: 1 / -1;">
-                        <div class="card-header"><i class="fas fa-cogs"></i> إدخال البيانات</div>
+                        <div class="card-header"><i class="fas fa-cogs"></i> <span data-lang-key="cardDataEntry">إدخال البيانات</span></div>
                         <div class="card-content">
                             <form id="jelly-form">
                                 <div class="input-group">
-                                    <label for="jelly-type">اختر نوع الجيلي</label>
+                                    <label for="jelly-type" data-lang-key="jellyType">اختر نوع الجيلي</label>
                                     <select id="jelly-type" class="form-select" required></select>
                                 </div>
                                 <div class="input-group">
-                                    <label for="jelly-pelts">عدد البلتات</label>
-                                    <input type="number" id="jelly-pelts" class="form-input" placeholder="مثال: 10" required>
+                                    <label for="jelly-pelts" data-lang-key="jellyPelts">عدد البلتات</label>
+                                    <input type="number" id="jelly-pelts" class="form-input" data-lang-key-placeholder="placeholderExample" required>
                                 </div>
                                 <div class="input-group">
-                                    <label for="jelly-bag-weight">وزن الكيس (بالجرام)</label>
-                                    <input type="number" id="jelly-bag-weight" class="form-input" placeholder="مثال: 250" required>
+                                    <label for="jelly-bag-weight" data-lang-key="jellyBagWeight">وزن الكيس (بالجرام)</label>
+                                    <input type="number" id="jelly-bag-weight" class="form-input" data-lang-key-placeholder="placeholderExample250" required>
                                 </div>
                                 <div class="input-group">
-                                    <label for="jelly-bags-per-carton">عدد الأكياس في الكرتونة</label>
-                                    <input type="number" id="jelly-bags-per-carton" class="form-input" placeholder="مثال: 24" required>
+                                    <label for="jelly-bags-per-carton" data-lang-key="jellyBagsCarton">عدد الأكياس في الكرتونة</label>
+                                    <input type="number" id="jelly-bags-per-carton" class="form-input" data-lang-key-placeholder="placeholderExample24" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> احسب الآن</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> <span data-lang-key="calculate">احسب الآن</span></button>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div id="jelly-results" class="card" style="grid-column: 1 / -1; margin-top: 1.5rem; display: none;">
-                    <div class="card-header"><i class="fas fa-poll"></i> النتائج</div>
+                    <div class="card-header"><i class="fas fa-poll"></i> <span data-lang-key="results">النتائج</span></div>
                     <div class="card-content">
                          <div class="result-item">
-                            <span>إجمالي الوزن:</span>
+                            <span data-lang-key="totalWeight">إجمالي الوزن:</span>
                             <span id="result-total-weight">0 كجم</span>
                         </div>
                         <div class="result-item">
-                            <span>عدد الأكياس المطلوب:</span>
+                            <span data-lang-key="bagsNeeded">عدد الأكياس المطلوب:</span>
                             <span id="result-bags-needed">0</span>
                         </div>
                          <div class="result-item">
-                            <span>عدد الكراتين المطلوب:</span>
+                            <span data-lang-key="cartonsNeeded">عدد الكراتين المطلوب:</span>
                             <span id="result-cartons-needed">0</span>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- Learn English Tab -->
+            <section class="tab-content" id="learn-english-tab">
+                 <div class="page-header">
+                     <h2 data-lang-key="headerLearn">🎓 تعلم مفردات الصناعة</h2>
+                     <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="form-switch">
+                            <input type="checkbox" id="vocab-show-images" class="checklist-checkbox">
+                            <label for="vocab-show-images" data-lang-key="showImages">عرض الصور</label>
+                        </div>
+                        <button id="lang-toggle-btn-learn" class="btn btn-secondary btn-sm lang-toggle-btn">EN</button>
+                     </div>
+                </div>
+                <div class="learn-english-container">
+                    <div class="vocab-list-panel">
+                        <input type="search" id="vocab-search-input" class="form-input" placeholder="Search for a word...">
+                        <ul id="vocab-list" class="vocab-list"></ul>
+                    </div>
+                    <div class="vocab-detail-panel">
+                        <div class="card vocab-detail-card">
+                            <div id="vocab-initial-prompt">
+                                <i class="fas fa-book-open"></i>
+                                <h3 data-lang-key="vocabSelectPromptTitle">Select a word to learn</h3>
+                                <p data-lang-key="vocabSelectPromptSubtitle">Choose a term from the list to see its details, image, and explanation.</p>
+                            </div>
+                            <div id="vocab-detail-content">
+                                <div class="vocab-detail-image-container">
+                                    <div class="loader"></div>
+                                </div>
+                                <div class="card-content" style="text-align: center;">
+                                    <h2 id="vocab-detail-term-en"></h2>
+                                    <h3 id="vocab-detail-term-ar"></h3>
+                                    <p id="vocab-detail-explanation"></p>
+                                    <div class="suggestions-container">
+                                        <h4 data-lang-key="suggestedWords">Suggested Words</h4>
+                                        <div id="suggestions-tags" class="suggestions-tags"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <div class="actions-bar">
-                <button class="btn btn-primary" id="save-btn"><i class="fas fa-archive"></i> حفظ أو تحديث التقرير</button>
-                <button class="btn btn-secondary" id="load-btn"><i class="fas fa-download"></i> تحميل آخر تقرير</button>
-                <button class="btn btn-secondary" id="reset-btn" style="color: var(--danger-color);"><i class="fas fa-redo"></i> بدء يوم جديد</button>
+                <button class="btn btn-primary" id="save-btn"><i class="fas fa-archive"></i> <span data-lang-key="btnSave">حفظ أو تحديث التقرير</span></button>
+                <button class="btn btn-secondary" id="load-btn"><i class="fas fa-download"></i> <span data-lang-key="btnLoad">تحميل آخر تقرير</span></button>
+                <button class="btn btn-secondary" id="reset-btn" style="color: var(--danger-color);"><i class="fas fa-redo"></i> <span data-lang-key="btnReset">بدء يوم جديد</span></button>
             </div>
         </main>
     </div>
@@ -609,7 +724,7 @@
             <div class="modal-header"><h3 id="alert-modal-title" class="modal-title"></h3></div>
             <div id="alert-modal-body" class="modal-body"></div>
             <div class="modal-footer">
-                <button id="alert-modal-confirm" class="btn btn-primary">موافق</button>
+                <button id="alert-modal-confirm" class="btn btn-primary" data-lang-key="ok">موافق</button>
             </div>
         </div>
     </div>
@@ -618,27 +733,128 @@
             <div class="modal-header"><h3 id="confirm-modal-title" class="modal-title"></h3></div>
             <div class="modal-body"><p id="confirm-modal-body"></p></div>
             <div class="modal-footer">
-                <button id="confirm-modal-cancel" class="btn btn-secondary">إلغاء</button>
-                <button id="confirm-modal-confirm" class="btn btn-primary">تأكيد</button>
+                <button id="confirm-modal-cancel" class="btn btn-secondary" data-lang-key="cancel">إلغاء</button>
+                <button id="confirm-modal-confirm" class="btn btn-primary" data-lang-key="confirm">تأكيد</button>
             </div>
         </div>
     </div>
     <div id="notes-modal" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">ملاحظات المهمة</h3></div>
+            <div class="modal-header"><h3 class="modal-title" data-lang-key="modalNotesTitle">ملاحظات المهمة</h3></div>
             <div class="modal-body">
                 <div id="notes-list"></div>
-                <textarea id="note-input" class="form-textarea" placeholder="أضف ملاحظة جديدة..."></textarea>
+                <textarea id="note-input" class="form-textarea" data-lang-key-placeholder="placeholderAddNote"></textarea>
             </div>
             <div class="modal-footer">
-                <button id="notes-modal-close" class="btn btn-secondary">إغلاق</button>
-                <button id="notes-modal-save" class="btn btn-primary">حفظ الملاحظة</button>
+                <button id="notes-modal-close" class="btn btn-secondary" data-lang-key="close">إغلاق</button>
+                <button id="notes-modal-save" class="btn btn-primary" data-lang-key="saveNote">حفظ الملاحظة</button>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Translations Object ---
+            const translations = {
+                showImages: { ar: 'عرض الصور', en: 'Show Images' },
+                vocabSelectPromptTitle: { ar: 'اختر كلمة لتتعلمها', en: 'Select a word to learn' },
+                vocabSelectPromptSubtitle: { ar: 'اختر مصطلحًا من القائمة لرؤية تفاصيله وصورته وشرحه.', en: 'Choose a term from the list to see its details, image, and explanation.' },
+                suggestedWords: { ar: 'كلمات مقترحة', en: 'Suggested Words' },
+                vocabSearchPlaceholder: { ar: 'ابحث عن كلمة...', en: 'Search for a word...' },
+                production: { ar: 'إنتاج', en: 'Production' },
+                dashboardTitle: { ar: 'لوحة الإنتاج', en: 'Production Dashboard' },
+                dashboardSubtitle: { ar: 'إدارة الوردية اليومية', en: 'Daily Shift Management' },
+                tabBriefing: { ar: 'اجتماع الوردية', en: 'Shift Briefing' },
+                tabTasks: { ar: 'المهام والتقرير', en: 'Tasks & Report' },
+                tabHistory: { ar: 'سجل التقارير', en: 'History Log' },
+                tabTodo: { ar: 'قائمة المهام', en: 'To-Do List' },
+                tabJellyCalculator: { ar: 'حاسبة الجيلي', en: 'Jelly Calculator' },
+                tabLearnEnglish: { ar: 'تعلم الإنجليزية', en: 'Learn English' },
+                headerBriefing: { ar: '📋 اجتماع بداية الوردية', en: '📋 Shift Start Briefing' },
+                headerTasks: { ar: '📌 قائمة المهام والتقرير اليومي', en: '📌 Tasks & Daily Report' },
+                headerHistory: { ar: '📂 سجل التقارير المحفوظة', en: '📂 Saved Reports Log' },
+                headerTodo: { ar: '📝 قائمة المهام الإضافية', en: '📝 Extra To-Do List' },
+                headerJelly: { ar: '🧮 حاسبة تعبئة الجيلي', en: '🧮 Jelly Packing Calculator' },
+                headerLearn: { ar: '🎓 قاموس الصناعة', en: '🎓 Industry Dictionary' },
+                cardMeetingPoints: { ar: 'نقاط الاجتماع', en: 'Meeting Points' },
+                cardPrevDay: { ar: 'أداء اليوم السابق', en: 'Previous Day Performance' },
+                cardTasks: { ar: 'قائمة المهام', en: 'Tasks List' },
+                cardDailyReport: { ar: 'التقرير اليومي', en: 'Daily Report' },
+                cardNewTask: { ar: 'إضافة مهمة جديدة', en: 'Add New Task' },
+                cardCurrentTasks: { ar: 'المهام الحالية', en: 'Current Tasks' },
+                cardDataEntry: { ar: 'إدخال البيانات', en: 'Data Entry' },
+                prodQty: { ar: 'الكمية المنتجة', en: 'Production Quantity' },
+                defectiveQty: { ar: 'الوحدات المعيبة', en: 'Defective Units' },
+                rejectionRate: { ar: 'نسبة الرفض', en: 'Rejection Rate' },
+                issues: { ar: 'المشاكل والعقبات', en: 'Issues & Obstacles' },
+                suggestions: { ar: 'ملاحظات واقتراحات', en: 'Notes & Suggestions' },
+                tasksBefore: { ar: 'قبل بداية الوردية', en: 'Before Shift' },
+                tasksDuring: { ar: 'أثناء الوردية', en: 'During Shift' },
+                tasksAfter: { ar: 'نهاية الوردية', en: 'End of Shift' },
+                jellyType: { ar: 'اختر نوع الجيلي', en: 'Select Jelly Type' },
+                jellyPelts: { ar: 'عدد البلتات', en: 'Number of Pelts' },
+                jellyBagWeight: { ar: 'وزن الكيس (بالجرام)', en: 'Bag Weight (grams)' },
+                jellyBagsCarton: { ar: 'عدد الأكياس في الكرتونة', en: 'Bags per Carton' },
+                calculate: { ar: 'احسب الآن', en: 'Calculate Now' },
+                results: { ar: 'النتائج', en: 'Results' },
+                totalWeight: { ar: 'إجمالي الوزن:', en: 'Total Weight:' },
+                bagsNeeded: { ar: 'عدد الأكياس المطلوب:', en: 'Bags Needed:' },
+                cartonsNeeded: { ar: 'عدد الكراتين المطلوب:', en: 'Cartons Needed:' },
+                btnSave: { ar: 'حفظ أو تحديث التقرير', en: 'Save or Update Report' },
+                btnLoad: { ar: 'تحميل آخر تقرير', en: 'Load Last Report' },
+                btnReset: { ar: 'بدء يوم جديد', en: 'Start New Day' },
+                ok: { ar: 'موافق', en: 'OK' },
+                cancel: { ar: 'إلغاء', en: 'Cancel' },
+                confirm: { ar: 'تأكيد', en: 'Confirm' },
+                add: { ar: 'إضافة', en: 'Add' },
+                close: { ar: 'إغلاق', en: 'Close' },
+                saveNote: { ar: 'حفظ الملاحظة', en: 'Save Note' },
+                modalNotesTitle: { ar: 'ملاحظات المهمة', en: 'Task Notes' },
+                placeholderIssues: { ar: 'سجل المشاكل...', en: 'Log issues here...' },
+                placeholderSuggestions: { ar: 'سجل الاقتراحات...', en: 'Log suggestions here...' },
+                placeholderNewTask: { ar: 'اكتب مهمة جديدة...', en: 'Enter a new task...' },
+                placeholderAddNote: { ar: 'أضف ملاحظة جديدة...', en: 'Add a new note...' },
+                placeholderExample: { ar: 'مثال: 10', en: 'e.g., 10' },
+                placeholderExample250: { ar: 'مثال: 250', en: 'e.g., 250' },
+                placeholderExample24: { ar: 'مثال: 24', en: 'e.g., 24' },
+                noSavedReports: { ar: 'لا توجد تقارير محفوظة.', en: 'No saved reports.' },
+                noTasks: { ar: 'لا توجد مهام حاليًا.', en: 'No tasks currently.' },
+                noNotes: { ar: 'لا توجد ملاحظات.', en: 'No notes available.' },
+                task: { ar: 'مهمة', en: 'Task' },
+                production: { ar: 'الإنتاج', en: 'Production' },
+                defective: { ar: 'المعيب', en: 'Defective' },
+                problems: { ar: 'المشاكل', en: 'Problems' },
+                noItems: { ar: 'لا يوجد', en: 'None' },
+                reports: {ar: 'تقارير', en: 'Reports'},
+                loadForEdit: {ar: 'تحميل للتعديل', en: 'Load for Editing'},
+                delete: {ar: 'حذف', en: 'Delete'},
+                success: {ar: 'نجاح', en: 'Success'},
+                error: {ar: 'خطأ', en: 'Error'},
+                info: {ar: 'معلومات', en: 'Information'},
+                confirmAction: {ar: 'تأكيد', en: 'Confirm'},
+                reportSaved: {ar: 'تم حفظ التقرير بنجاح.', en: 'Report saved successfully.'},
+                reportLoaded: {ar: 'تم تحميل التقرير بنجاح.', en: 'Report loaded successfully.'},
+                noReportToLoad: {ar: 'لا توجد تقارير سابقة لتحميلها.', en: 'No previous reports to load.'},
+                newDayReady: {ar: 'تم إعداد النظام ليوم جديد.', en: 'System ready for a new day.'},
+                deleteConfirm: {ar: 'هل أنت متأكد من حذف هذا التقرير؟', en: 'Are you sure you want to delete this report?'},
+                resetConfirm: {ar: 'هل أنت متأكد من بدء يوم جديد؟', en: 'Are you sure you want to start a new day?'},
+                cannotSaveEmpty: {ar: 'لا يمكن حفظ تقرير فارغ.', en: 'Cannot save an empty report.'},
+                'task_b-1': { ar: '<b>السلام والتحفيز</b>', en: '<b>Greetings & Motivation</b>' },
+                'task_b-2': { ar: '<b>عرض نتائج اليوم السابق</b>', en: '<b>Review Previous Day Results</b>' },
+                'task_b-3': { ar: '<b>مناقشة خطة اليوم</b>', en: '<b>Discuss Today\'s Plan</b>' },
+                'task_b-4': { ar: '<b>تأكيد تعليمات السلامة والجودة</b>', en: '<b>Confirm Safety & Quality Instructions</b>' },
+                'task_b-5': { ar: '<b>فتح باب النقاش</b>', en: '<b>Open Floor for Discussion</b>' },
+                'task_t-b-1': { ar: 'مراجعة خطة الإنتاج', en: 'Review Production Plan' },
+                'task_t-b-2': { ar: 'مراجعة حالة المعدات', en: 'Check Equipment Status' },
+                'task_t-b-3': { ar: 'عمل اجتماع سريع', en: 'Hold Quick Briefing' },
+                'task_t-d-1': { ar: 'متابعة تشغيل الماكينات', en: 'Monitor Machine Operation' },
+                'task_t-d-2': { ar: 'مراجعة جودة الإنتاج', en: 'Review Production Quality' },
+                'task_t-d-3': { ar: 'متابعة مؤشرات الأداء', en: 'Track Performance Indicators (KPIs)' },
+                'task_t-a-1': { ar: 'مراجعة الكميات المنتجة', en: 'Review Produced Quantities' },
+                'task_t-a-2': { ar: 'تسجيل الملاحظات والأعطال', en: 'Log Notes and Breakdowns' },
+                'task_t-a-3': { ar: 'تجهيز تقرير التسليم', en: 'Prepare Handover Report' },
+            };
+
             // --- Jelly Production Data ---
             const jellyProductionData = [
                 { shape: "كوكا", peltWeightKg: 211.1 }, { shape: "دبدوب", peltWeightKg: 205.5 }, { shape: "أرقام", peltWeightKg: 195.0 },
@@ -653,6 +869,77 @@
                 { shape: "بيج لاصقة", peltWeightKg: 194.4 }, { shape: "بطيخة", peltWeightKg: 279.9 }
             ];
 
+            // --- Learn English Vocabulary ---
+            const vocabularyList = [
+                { en: 'Additive', ar: 'مادة مضافة', tags: ['ingredient', 'recipe'], explanation: 'A substance added to food to improve its flavor, texture, or preserve it.' },
+                { en: 'Allergen', ar: 'مسببات الحساسية', tags: ['safety', 'quality', 'ingredient'], explanation: 'A substance that can cause an allergic reaction in some people.' },
+                { en: 'Audit', ar: 'تدقيق', tags: ['quality', 'process', 'documentation'], explanation: 'An official inspection of an organization\'s accounts, typically by an independent body.' },
+                { en: 'Bacteria', ar: 'بكتيريا', tags: ['safety', 'hygiene', 'quality'], explanation: 'Microscopic living organisms, usually one-celled, that can be found everywhere.' },
+                { en: 'Batch', ar: 'دفعة إنتاج', tags: ['production', 'tracking'], explanation: 'A quantity or consignment of goods produced at one time.' },
+                { en: 'Blanching', ar: 'سلق', tags: ['process', 'production'], explanation: 'A cooking process wherein a food, usually a vegetable or fruit, is scalded in boiling water, removed after a brief, timed interval, and finally plunged into iced water.' },
+                { en: 'Bottleneck', ar: 'عنق الزجاجة', tags: ['process', 'production'], explanation: 'A point of congestion in a system that limits the overall throughput.' },
+                { en: 'Calibration', ar: 'معايرة', tags: ['equipment', 'quality'], explanation: 'The process of configuring an instrument to provide a result for a sample within an acceptable range.' },
+                { en: 'Canning', ar: 'تعليب', tags: ['packaging', 'process', 'safety'], explanation: 'A method of preserving food in which the food contents are processed and sealed in an airtight container.' },
+                { en: 'Cold Chain', ar: 'سلسلة التبريد', tags: ['logistics', 'safety', 'warehouse'], explanation: 'A temperature-controlled supply chain.' },
+                { en: 'Contamination', ar: 'تلوث', tags: ['safety', 'quality'], explanation: 'The presence of a constituent, impurity, or some other undesirable element that spoils a material or physical body.' },
+                { en: 'Conveyor Belt', ar: 'سير ناقل', tags: ['equipment', 'production'], explanation: 'A continuous moving band of fabric, rubber, or metal used for transporting objects from one place to another.' },
+                { en: 'Cross-Contamination', ar: 'تلوث متبادل', tags: ['safety', 'hygiene'], explanation: 'The process by which bacteria or other microorganisms are unintentionally transferred from one substance or object to another, with harmful effect.' },
+                { en: 'Dehydration', ar: 'تجفيف', tags: ['process', 'production'], explanation: 'The process of removing water or moisture from something.' },
+                { en: 'Disinfection', ar: 'تطهير', tags: ['hygiene', 'safety'], explanation: 'The process of cleaning something, especially with a chemical, in order to destroy bacteria.' },
+                { en: 'Downtime', ar: 'وقت التوقف', tags: ['production', 'equipment'], explanation: 'Time during which a machine, especially a computer, is out of action or unavailable for use.' },
+                { en: 'Emulsifier', ar: 'مستحلب', tags: ['ingredient', 'process'], explanation: 'A substance that stabilizes an emulsion, in particular a food additive used to stabilize processed foods.' },
+                { en: 'Enzyme', ar: 'إنزيم', tags: ['ingredient', 'process'], explanation: 'A substance produced by a living organism which acts as a catalyst to bring about a specific biochemical reaction.' },
+                { en: 'Equipment', ar: 'معدات', tags: ['production'], explanation: 'The necessary items for a particular purpose.' },
+                { en: 'Expiry Date', ar: 'تاريخ الإنتهاء', tags: ['quality', 'packaging'], explanation: 'The date after which a product should not be sold or used because of an expected decline in quality or effectiveness.' },
+                { en: 'Fermentation', ar: 'تخمير', tags: ['process', 'production'], explanation: 'The chemical breakdown of a substance by bacteria, yeasts, or other microorganisms.' },
+                { en: 'FIFO', ar: 'الوارد أولاً يخرج أولاً', tags: ['warehouse', 'process', 'inventory'], explanation: 'First-In, First-Out, an inventory management method.' },
+                { en: 'Filling', ar: 'تعبئة', tags: ['packaging', 'production'], explanation: 'The process of putting a product into its container.' },
+                { en: 'Filtration', ar: 'ترشيح', tags: ['process', 'quality'], explanation: 'The action or process of filtering something.' },
+                { en: 'Finished Product', ar: 'منتج نهائي', tags: ['production', 'quality', 'warehouse'], explanation: 'A product that has completed the manufacturing process but is not yet sold or distributed.' },
+                { en: 'Food Grade', ar: 'صالح للاستخدام الغذائي', tags: ['safety', 'quality', 'equipment'], explanation: 'Material that is safe for consumption or for coming into contact with food.' },
+                { en: 'Freezing', ar: 'تجميد', tags: ['process', 'warehouse'], explanation: 'The process of preserving food by storing it at a very low temperature.' },
+                { en: 'HACCP', ar: 'نظام تحليل المخاطر ونقاط التحكم الحرجة', tags: ['safety', 'quality', 'documentation'], explanation: 'A systematic preventive approach to food safety from biological, chemical, and physical hazards.' },
+                { en: 'Homogenization', ar: 'تجنيس', tags: ['process', 'production'], explanation: 'The process of reducing a substance, such as the fat globules in milk, to extremely small particles and distributing it uniformly throughout a fluid.' },
+                { en: 'Hygiene', ar: 'نظافة', tags: ['safety', 'quality'], explanation: 'Conditions or practices conducive to maintaining health and preventing disease, especially through cleanliness.' },
+                { en: 'Ingredient', ar: 'مكون', tags: ['production', 'recipe'], explanation: 'Any of the foods or substances that are combined to make a particular dish.' },
+                { en: 'Inspection', ar: 'تفتيش', tags: ['quality', 'process'], explanation: 'Careful examination or scrutiny.' },
+                { en: 'Inventory', ar: 'مخزون', tags: ['warehouse', 'logistics'], explanation: 'A complete list of items such as property, goods in stock, or the contents of a building.' },
+                { en: 'Labeling', ar: 'وضع العلامات', tags: ['packaging', 'quality'], explanation: 'The process of attaching a label to something.' },
+                { en: 'Logistics', ar: 'الخدمات اللوجستية', tags: ['warehouse', 'shipment'], explanation: 'The detailed coordination of a complex operation involving many people, facilities, or supplies.' },
+                { en: 'Microorganism', ar: 'كائن حي دقيق', tags: ['safety', 'hygiene'], explanation: 'A microscopic organism, especially a bacterium, virus, or fungus.' },
+                { en: 'Mixer', ar: 'خلاط', tags: ['equipment', 'production'], explanation: 'A machine or device for mixing things, especially an electrical appliance for mixing foods.' },
+                { en: 'Moisture Content', ar: 'محتوى الرطوبة', tags: ['quality', 'ingredient'], explanation: 'The quantity of water contained in a material.' },
+                { en: 'Packaging', ar: 'تعبئة وتغليف', tags: ['production', 'packaging'], explanation: 'Materials used to wrap or protect goods.' },
+                { en: 'Pallet', ar: 'منصة نقالة', tags: ['warehouse', 'logistics'], explanation: 'A portable platform on which goods can be moved, stacked, and stored.' },
+                { en: 'Pasteurization', ar: 'بسترة', tags: ['process', 'safety'], explanation: 'A process that kills microbes (mainly bacteria) in food and drink, such as milk, juice, canned food, and others.' },
+                { en: 'Pathogen', ar: 'ممرض', tags: ['safety', 'hygiene'], explanation: 'A bacterium, virus, or other microorganism that can cause disease.' },
+                { en: 'Preservative', ar: 'مادة حافظة', tags: ['ingredient', 'quality'], explanation: 'A substance used to preserve foodstuffs, wood, or other materials against decay.' },
+                { en: 'Process Control', ar: 'مراقبة العمليات', tags: ['process', 'quality'], explanation: 'An engineering discipline that deals with architectures, mechanisms and algorithms for maintaining the output of a specific process within a desired range.' },
+                { en: 'Production Line', ar: 'خط الإنتاج', tags: ['production', 'equipment'], explanation: 'A set of sequential operations established in a factory whereby materials are put through a refining process to produce an end-product.' },
+                { en: 'Quality Assurance', ar: 'ضمان الجودة', tags: ['quality', 'process'], explanation: 'The maintenance of a desired level of quality in a service or product, especially by means of attention to every stage of the process of delivery or production.' },
+                { en: 'Quality Control', ar: 'مراقبة الجودة', tags: ['quality', 'process'], explanation: 'A system of maintaining standards in manufactured products by testing a sample of the output against the specification.' },
+                { en: 'Quarantine', ar: 'حجر صحي', tags: ['warehouse', 'quality', 'safety'], explanation: 'A state, period, or place of isolation in which people or animals that have arrived from elsewhere or been exposed to infectious or contagious disease are placed.' },
+                { en: 'Raw Material', ar: 'مواد خام', tags: ['ingredient', 'warehouse'], explanation: 'The basic material from which a product is made.' },
+                { en: 'Recipe', ar: 'وصفة', tags: ['production', 'quality'], explanation: 'A set of instructions for preparing a particular dish, including a list of the ingredients required.' },
+                { en: 'Refrigeration', ar: 'تبريد', tags: ['process', 'warehouse'], explanation: 'The process of subjecting food or drink to cold in order to chill or preserve it.' },
+                { en: 'Safety', ar: 'سلامة', tags: ['process', 'hygiene'], explanation: 'The condition of being protected from or unlikely to cause danger, risk, or injury.' },
+                { en: 'Sanitation', ar: 'تطهير', tags: ['safety', 'hygiene'], explanation: 'Conditions relating to public health, especially the provision of clean drinking water and adequate sewage disposal.' },
+                { en: 'Sealing', ar: 'إغلاق محكم', tags: ['packaging', 'quality'], explanation: 'The action of fastening or closing something securely.' },
+                { en: 'Shelf Life', ar: 'مدة الصلاحية', tags: ['quality', 'packaging'], explanation: 'The length of time for which an item remains usable, fit for consumption, or saleable.' },
+                { en: 'Shipment', ar: 'شحنة', tags: ['warehouse', 'logistics'], explanation: 'The action of shipping goods.' },
+                { en: 'SOP', ar: 'إجراءات التشغيل القياسية', tags: ['process', 'quality', 'documentation'], explanation: 'Standard Operating Procedure, a set of step-by-step instructions compiled by an organization to help workers carry out complex routine operations.' },
+                { en: 'Sterilization', ar: 'تعقيم', tags: ['process', 'safety', 'hygiene'], explanation: 'The process of making something free from bacteria or other living microorganisms.' },
+                { en: 'Storage', ar: 'تخزين', tags: ['warehouse'], explanation: 'The action or method of storing something for future use.' },
+                { en: 'Supplier', ar: 'مورد', tags: ['logistics', 'ingredient'], explanation: 'A person or organization that provides something needed such as a product or service.' },
+                { en: 'Temperature', ar: 'درجة الحرارة', tags: ['process', 'safety', 'quality'], explanation: 'The degree or intensity of heat present in a substance or object.' },
+                { en: 'Traceability', ar: 'إمكانية التتبع', tags: ['quality', 'tracking'], explanation: 'The ability to trace the history, application, or location of an item or activity by means of recorded identification.' },
+                { en: 'Viscosity', ar: 'لزوجة', tags: ['quality', 'process'], explanation: 'The state of being thick, sticky, and semi-fluid in consistency, due to internal friction.' },
+                { en: 'Warehouse', ar: 'مستودع', tags: ['logistics', 'inventory'], explanation: 'A large building where raw materials or manufactured goods are stored prior to their distribution for sale.' },
+                { en: 'Yield', ar: 'عائد الإنتاج', tags: ['production', 'process'], explanation: 'The full amount of an agricultural or industrial product.' }
+            ].sort((a, b) => a.en.localeCompare(b.en));
+            const wordDetailsCache = {};
+
+
             // --- Elements & Initial Setup ---
             const navLinks = document.querySelectorAll('.nav-link');
             const contents = document.querySelectorAll('.tab-content');
@@ -662,16 +949,63 @@
             const historyContainer = document.getElementById('history-content-area');
             const taskLabels = {};
             document.querySelectorAll('.checklist-label').forEach(label => {
-                taskLabels[label.htmlFor] = label.innerText.trim();
+                taskLabels[label.htmlFor] = translations[label.dataset.langKey] || {ar: label.innerText.trim(), en: label.innerText.trim()};
             });
+
+            // --- Language Functions ---
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.dataset.langKey;
+                    if (translations[key] && translations[key][lang]) {
+                        const span = el.querySelector('span');
+                        if (span) {
+                             span.innerHTML = translations[key][lang];
+                        } else {
+                             el.innerHTML = translations[key][lang];
+                        }
+                    }
+                });
+                
+                document.querySelectorAll('[data-lang-key-placeholder]').forEach(el => {
+                    const key = el.dataset.langKeyPlaceholder;
+                    if(translations[key] && translations[key][lang]) {
+                        el.placeholder = translations[key][lang];
+                    }
+                });
+
+                document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+                    btn.textContent = lang === 'ar' ? 'EN' : 'ع';
+                });
+                document.getElementById('vocab-search-input').placeholder = translations.vocabSearchPlaceholder[lang];
+
+                localStorage.setItem('language', lang);
+                if (document.getElementById('history-tab').classList.contains('active')) {
+                    loadHistory();
+                }
+            };
+
+            document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const currentLang = localStorage.getItem('language') || 'ar';
+                    const newLang = currentLang === 'ar' ? 'en' : 'ar';
+                    setLanguage(newLang);
+                });
+            });
+
 
             // --- Modal Logic ---
             const alertModal = {
                 el: document.getElementById('alert-modal'),
                 title: document.getElementById('alert-modal-title'),
                 body: document.getElementById('alert-modal-body'),
-                show(title, body) {
-                    this.title.textContent = title; this.body.textContent = body; this.el.classList.add('active');
+                show(titleKey, bodyKey) {
+                    const lang = localStorage.getItem('language') || 'ar';
+                    this.title.textContent = translations[titleKey][lang]; 
+                    this.body.textContent = translations[bodyKey][lang]; 
+                    this.el.classList.add('active');
                 }
             };
             document.getElementById('alert-modal-confirm').addEventListener('click', () => alertModal.el.classList.remove('active'));
@@ -680,8 +1014,11 @@
                 el: document.getElementById('confirm-modal'),
                 title: document.getElementById('confirm-modal-title'),
                 body: document.getElementById('confirm-modal-body'),
-                show(title, body) {
-                    this.title.textContent = title; this.body.textContent = body; this.el.classList.add('active');
+                show(titleKey, bodyKey) {
+                    const lang = localStorage.getItem('language') || 'ar';
+                    this.title.textContent = translations[titleKey][lang];
+                    this.body.textContent = translations[bodyKey][lang]; 
+                    this.el.classList.add('active');
                     return new Promise(resolve => {
                         document.getElementById('confirm-modal-confirm').onclick = () => { this.el.classList.remove('active'); resolve(true); };
                         document.getElementById('confirm-modal-cancel').onclick = () => { this.el.classList.remove('active'); resolve(false); };
@@ -695,8 +1032,9 @@
                 input: document.getElementById('note-input'),
                 currentTaskId: null,
                 show(taskId, notes) {
+                    const lang = localStorage.getItem('language') || 'ar';
                     this.currentTaskId = taskId;
-                    this.list.innerHTML = notes.map(note => `<div>- ${note}</div>`).join('') || '<p>لا توجد ملاحظات.</p>';
+                    this.list.innerHTML = notes.length > 0 ? notes.map(note => `<div>- ${note}</div>`).join('') : `<p>${translations.noNotes[lang]}</p>`;
                     this.input.value = '';
                     this.el.classList.add('active');
                 }
@@ -710,7 +1048,7 @@
                     saveData(data);
                     notesModal.el.classList.remove('active');
                     updateNoteIcons();
-                    renderTaskNotes(notesModal.currentTaskId); // Re-render notes on main UI
+                    renderTaskNotes(notesModal.currentTaskId);
                 }
             });
 
@@ -725,6 +1063,7 @@
                 if(sidebar.classList.contains('open')) toggleMenu();
                 if(tabId === 'history') loadHistory();
                 if(tabId === 'todo') renderTodos();
+                if(tabId === 'learn-english') populateLearnEnglishTab();
             };
             navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); switchTab(link.dataset.tab); }));
 
@@ -819,9 +1158,9 @@
                     if (checkbox && dataObject.tasks && dataObject.tasks[taskId]) {
                          checkbox.checked = dataObject.tasks[taskId].checked;
                     } else if (checkbox) {
-                        checkbox.checked = false; // Uncheck if not in data
+                        checkbox.checked = false;
                     }
-                    renderTaskNotes(taskId); // Render notes for every task
+                    renderTaskNotes(taskId);
                 });
                 const report = dataObject.report || {};
                 document.getElementById('production-qty').value = report.productionQty || '';
@@ -849,7 +1188,7 @@
             const saveToHistory = () => {
                 const currentData = getAndFormatCurrentData();
                 if(!currentData.report.productionQty) {
-                    alertModal.show('خطأ', 'لا يمكن حفظ تقرير فارغ.'); return false;
+                    alertModal.show('error', 'cannotSaveEmpty'); return false;
                 }
                 let history = getHistory();
                 const existingReportIndex = history.findIndex(entry => entry.date === currentData.date);
@@ -861,10 +1200,11 @@
             };
 
             const loadHistory = () => {
+                const lang = localStorage.getItem('language') || 'ar';
                 const history = getHistory();
                 historyContainer.innerHTML = '';
                 if (history.length === 0) {
-                    historyContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">لا توجد تقارير محفوظة.</p>';
+                    historyContainer.innerHTML = `<p style="text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">${translations.noSavedReports[lang]}</p>`;
                     return;
                 }
 
@@ -880,8 +1220,9 @@
                     const firstReportDate = new Date(reportsForDay[0].date);
                     const dayGroup = document.createElement('div');
                     dayGroup.className = 'history-day-group';
+                    const locale = lang === 'ar' ? 'ar-EG' : 'en-US';
 
-                    dayGroup.innerHTML = `<div class="history-day-header"><h3>${firstReportDate.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3><span>${reportsForDay.length} تقارير</span><i class="fas fa-chevron-down chevron"></i></div><div class="history-day-content"></div>`;
+                    dayGroup.innerHTML = `<div class="history-day-header"><h3>${firstReportDate.toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3><span>${reportsForDay.length} ${translations.reports[lang]}</span><i class="fas fa-chevron-down chevron"></i></div><div class="history-day-content"></div>`;
                     const contentContainer = dayGroup.querySelector('.history-day-content');
 
                     reportsForDay.forEach(entry => {
@@ -891,24 +1232,24 @@
                         if (tasksWithNotes.length > 0) {
                             notesHtml += '<div class="history-notes-section">';
                             tasksWithNotes.forEach(([taskId, task]) => {
-                                notesHtml += `<strong>${taskLabels[taskId] || 'مهمة'}:</strong><ul>${task.notes.map(n => `<li>${n}</li>`).join('')}</ul>`;
+                                notesHtml += `<strong>${(taskLabels[taskId] ? taskLabels[taskId][lang] : translations.task[lang]).replace(/<\/?b>/g, '')}:</strong><ul>${task.notes.map(n => `<li>${n}</li>`).join('')}</ul>`;
                             });
                             notesHtml += '</div>';
                         }
                         
                         const card = document.createElement('div');
                         card.className = 'card';
-                        card.innerHTML = `<div class="card-header"><i class="fas fa-clock"></i> ${date.toLocaleTimeString('ar-EG')}</div>
+                        card.innerHTML = `<div class="card-header"><i class="fas fa-clock"></i> ${date.toLocaleTimeString(locale)}</div>
                             <div class="card-content">
-                                <p><strong>الإنتاج:</strong> ${entry.report.productionQty || 'N/A'}</p>
-                                <p><strong>المعيب:</strong> ${entry.report.defectiveQty || 'N/A'}</p>
-                                <p><strong>المشاكل:</strong> ${entry.report.issues || 'لا يوجد'}</p>
-                                <p><strong>الاقتراحات:</strong> ${entry.report.improvements || 'لا يوجد'}</p>
+                                <p><strong>${translations.production[lang]}:</strong> ${entry.report.productionQty || translations.noItems[lang]}</p>
+                                <p><strong>${translations.defective[lang]}:</strong> ${entry.report.defectiveQty || translations.noItems[lang]}</p>
+                                <p><strong>${translations.problems[lang]}:</strong> ${entry.report.issues || translations.noItems[lang]}</p>
+                                <p><strong>${translations.suggestions[lang]}:</strong> ${entry.report.improvements || translations.noItems[lang]}</p>
                                 ${notesHtml}
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-secondary btn-sm history-load-btn" data-date="${entry.date}"><i class="fas fa-edit"></i> تحميل</button>
-                                <button class="btn btn-secondary btn-sm history-delete-btn" data-date="${entry.date}" style="color: var(--danger-color)"><i class="fas fa-trash"></i> حذف</button>
+                                <button class="btn btn-secondary btn-sm history-load-btn" data-date="${entry.date}"><i class="fas fa-edit"></i> ${translations.loadForEdit[lang]}</button>
+                                <button class="btn btn-secondary btn-sm history-delete-btn" data-date="${entry.date}" style="color: var(--danger-color)"><i class="fas fa-trash"></i> ${translations.delete[lang]}</button>
                             </div>`;
                         contentContainer.appendChild(card);
                     });
@@ -925,16 +1266,15 @@
                     const reportData = getHistory().find(entry => entry.date === loadBtn.dataset.date);
                     if(reportData) {
                         populateUIWithData(reportData);
-                        alertModal.show('تم التحميل', 'تم تحميل بيانات التقرير للتعديل.');
+                        alertModal.show('success', 'reportLoaded');
                         switchTab('tasks');
                     }
                 }
                 
                 const deleteBtn = e.target.closest('.history-delete-btn');
                 if (deleteBtn) {
-                    const date = deleteBtn.dataset.date;
-                    if(await confirmModal.show('تأكيد الحذف', 'هل أنت متأكد من حذف هذا التقرير؟')){
-                        saveHistory(getHistory().filter(entry => entry.date !== date));
+                    if(await confirmModal.show('confirmAction', 'deleteConfirm')){
+                        saveHistory(getHistory().filter(entry => entry.date !== deleteBtn.dataset.date));
                         loadHistory();
                     }
                 }
@@ -944,10 +1284,10 @@
                 const summary = JSON.parse(localStorage.getItem(LAST_DAY_KEY) || null);
                 const card = document.getElementById('last-day-card');
                 if (summary) {
+                    card.style.display = 'block';
                     document.getElementById('last-day-prod').textContent = summary.prod;
                     document.getElementById('last-day-def').textContent = summary.def;
                     document.getElementById('last-day-rate').textContent = summary.rate;
-                    card.style.display = 'block';
                 } else { card.style.display = 'none'; }
             };
 
@@ -961,10 +1301,11 @@
             const saveTodos = (todos) => localStorage.setItem(TODO_KEY, JSON.stringify(todos));
             
             const renderTodos = () => {
+                const lang = localStorage.getItem('language') || 'ar';
                 const todos = getTodos();
                 todoListContainer.innerHTML = '';
                 if(todos.length === 0) {
-                    todoListContainerParent.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">لا توجد مهام حاليًا.</p>';
+                    todoListContainerParent.innerHTML = `<p style="text-align: center; color: var(--text-secondary);">${translations.noTasks[lang]}</p>`;
                 } else {
                     if (todoListContainerParent.querySelector('p')) {
                         todoListContainerParent.innerHTML = '';
@@ -1026,34 +1367,153 @@
                 const bagsPerCarton = parseFloat(document.getElementById('jelly-bags-per-carton').value);
                 
                 if ([peltWeightKg, numPelts, bagWeightG, bagsPerCarton].some(isNaN)) {
-                    alertModal.show('خطأ', 'يرجى إدخال قيم رقمية صحيحة.'); return;
+                    alertModal.show('error', 'cannotSaveEmpty'); return;
                 }
 
                 const totalWeightKg = peltWeightKg * numPelts;
                 const bagsNeeded = Math.floor((totalWeightKg * 1000) / bagWeightG);
                 const cartonsNeeded = Math.floor(bagsNeeded / bagsPerCarton);
                 
-                document.getElementById('result-total-weight').textContent = `${totalWeightKg.toFixed(2)} كجم`;
+                document.getElementById('result-total-weight').textContent = `${totalWeightKg.toFixed(2)} kg`;
                 document.getElementById('result-bags-needed').textContent = bagsNeeded.toLocaleString();
                 document.getElementById('result-cartons-needed').textContent = cartonsNeeded.toLocaleString();
                 document.getElementById('jelly-results').style.display = 'block';
             });
+
+            // --- Advanced Learn English Functions ---
+            const vocabListEl = document.getElementById('vocab-list');
+            const vocabSearchInput = document.getElementById('vocab-search-input');
+            const vocabInitialPrompt = document.getElementById('vocab-initial-prompt');
+            const vocabDetailContent = document.getElementById('vocab-detail-content');
+            const vocabShowImagesCheckbox = document.getElementById('vocab-show-images');
+            
+            const displayVocabWord = async (word) => {
+                vocabInitialPrompt.style.display = 'none';
+                vocabDetailContent.style.display = 'block';
+
+                document.getElementById('vocab-detail-term-en').textContent = word.en;
+                document.getElementById('vocab-detail-term-ar').textContent = word.ar;
+
+                document.querySelectorAll('.vocab-list-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.word === word.en);
+                });
+                
+                const imageContainer = document.querySelector('.vocab-detail-image-container');
+                const explanationEl = document.getElementById('vocab-detail-explanation');
+                const suggestionsEl = document.getElementById('suggestions-tags');
+
+                imageContainer.style.display = vocabShowImagesCheckbox.checked ? 'flex' : 'none';
+                explanationEl.textContent = word.explanation; // Get explanation from local object
+                suggestionsEl.innerHTML = '';
+                
+                if (vocabShowImagesCheckbox.checked) {
+                    imageContainer.innerHTML = '<div class="loader"></div>';
+                    // Check cache first for image
+                     if (wordDetailsCache[word.en] && wordDetailsCache[word.en].imageUrl) {
+                        imageContainer.innerHTML = `<img src="${wordDetailsCache[word.en].imageUrl}" alt="${word.en}">`;
+                    } else {
+                        const imagePrompt = `A clear, simple, iconic image of a "${word.en}", related to the food manufacturing industry. Clean vector art style, minimalist, on a white background.`;
+                        const imageUrl = await generateImage(imagePrompt, word.en);
+                        if (imageUrl) {
+                            imageContainer.innerHTML = `<img src="${imageUrl}" alt="${word.en}">`;
+                            if (!wordDetailsCache[word.en]) wordDetailsCache[word.en] = {};
+                            wordDetailsCache[word.en].imageUrl = imageUrl;
+                        } else {
+                            imageContainer.innerHTML = `<div class="image-placeholder"><i class="fas fa-image"></i></div>`;
+                        }
+                    }
+                }
+
+                const relatedWords = vocabularyList.filter(v => v.tags.some(tag => word.tags.includes(tag)) && v.en !== word.en);
+                relatedWords.slice(0, 5).forEach(related => {
+                     const tag = document.createElement('span');
+                     tag.className = 'suggestion-tag';
+                     tag.textContent = related.en;
+                     tag.dataset.word = related.en;
+                     suggestionsEl.appendChild(tag);
+                });
+            };
+
+            async function generateImage(prompt, word) {
+                const payload = { instances: [{ prompt }], parameters: { "sampleCount": 1 } };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+                try {
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                     if (!response.ok) {
+                        console.error("Image API Error:", response.status, await response.text());
+                        return null;
+                     }
+                    const result = await response.json();
+                    if (result.predictions && result.predictions[0]?.bytesBase64Encoded) {
+                        return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    } else {
+                        console.error("Invalid image response structure:", result);
+                    }
+                } catch (error) { console.error(`Image generation error for "${word}":`, error); }
+                return null;
+            }
+
+            const populateVocabList = (filter = '') => {
+                vocabListEl.innerHTML = '';
+                const filteredList = vocabularyList.filter(word => 
+                    word.en.toLowerCase().includes(filter.toLowerCase()) || 
+                    word.ar.includes(filter)
+                );
+                filteredList.forEach(word => {
+                    const li = document.createElement('li');
+                    li.className = 'vocab-list-item';
+                    li.textContent = word.en;
+                    li.dataset.word = word.en;
+                    vocabListEl.appendChild(li);
+                });
+            };
+
+            vocabSearchInput.addEventListener('input', (e) => populateVocabList(e.target.value));
+            
+            vocabListEl.addEventListener('click', (e) => {
+                if (e.target.matches('.vocab-list-item')) {
+                    const wordEn = e.target.dataset.word;
+                    const wordObject = vocabularyList.find(w => w.en === wordEn);
+                    displayVocabWord(wordObject);
+                }
+            });
+            
+            vocabShowImagesCheckbox.addEventListener('change', () => {
+                const activeWordEl = vocabListEl.querySelector('.active');
+                if (activeWordEl) {
+                    const wordObject = vocabularyList.find(w => w.en === activeWordEl.dataset.word);
+                    displayVocabWord(wordObject);
+                }
+            });
+
+            document.getElementById('suggestions-tags').addEventListener('click', (e) => {
+                if (e.target.matches('.suggestion-tag')) {
+                    const wordEn = e.target.dataset.word;
+                    const wordObject = vocabularyList.find(w => w.en === wordEn);
+                    displayVocabWord(wordObject);
+                }
+            });
+
+            const populateLearnEnglishTab = () => {
+                populateVocabList();
+            };
             
             // --- General Event Listeners & Initial Load ---
             document.getElementById('save-btn').addEventListener('click', () => {
-                if (saveToHistory()) alertModal.show('نجاح', 'تم حفظ التقرير في السجل.');
+                if (saveToHistory()) alertModal.show('success', 'reportSaved');
             });
             document.getElementById('load-btn').addEventListener('click', () => {
                 const history = getHistory();
                 if (history.length > 0) {
                     populateUIWithData(history[0]);
-                    alertModal.show('نجاح', 'تم تحميل آخر تقرير.');
+                    alertModal.show('success', 'reportLoaded');
                     switchTab('tasks');
-                } else { alertModal.show('معلومات', 'لا توجد تقارير محفوظة.'); }
+                } else { alertModal.show('info', 'noReportToLoad'); }
             });
             document.getElementById('reset-btn').addEventListener('click', async () => {
-                if (await confirmModal.show('تأكيد', 'هل تريد بدء يوم جديد؟ سيتم أرشفة ملخص اليوم الحالي.')) {
-                    resetData(); alertModal.show('نجاح', 'تم إعداد النظام ليوم جديد.');
+                if (await confirmModal.show('confirmAction', 'resetConfirm')) {
+                    resetData(); alertModal.show('success', 'newDayReady');
                 }
             });
 
@@ -1077,6 +1537,9 @@
                 }
             });
             
+            // --- Final Initial Load ---
+            const initialLang = localStorage.getItem('language') || 'ar';
+            setLanguage(initialLang);
             populateUIWithData(getStoredData());
             loadLastDaySummary();
             populateJellySelect();
